@@ -29,7 +29,7 @@ browseVignettes(mmus)
 help(mmus)
 ```
 
-# Loading package
+## Loading package
 ```{r}
 library(mmus)
 ```
