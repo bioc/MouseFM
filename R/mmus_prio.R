@@ -127,11 +127,6 @@ reduction = function(combs, geno){
 }
 
 
-r = mmusprio("chr1", start=5000000, end=6000000, strain1="DBA_1J", strain2="AKR_J")
-geno = r$genotypes
-reduction_factors = r$reduction
-
-
 #'@description Get best combinations
 #'@param rf Reduction factors data frame.
 #'@param n_top Number if combinations to be returned.
@@ -200,9 +195,6 @@ vis_reduction_factors = function(geno, rf, n_top){
 
   return(plots)
 }
-
-
-
 
 
 # if(i == 1 && max_set_size > 1){
