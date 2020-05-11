@@ -1,16 +1,16 @@
 # In-silico methods for strain prioritization and finemapping of genetic regions in mice.
 [![Twitter](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/intent/tweet?hashtags=asd&url=https://www.biorxiv.org/content/...)
 
-+ [Introduction](#Introduction)\
-+ [Installation](#Installation)\
-+ [Usage](#Usage)\
-&nbsp;&nbsp;|-- [Accepted query terms](#Accepted-query-terms)\
-&nbsp;&nbsp;|-- [Optional parameters](#Optional-parameters)\
-&nbsp;&nbsp;|-- [Meta information](#Meta-information)\
-+ [Try out online](#Try-out-online)\
-+ [Authors](#Authors)\
-+ [Citation](#Citation)\
-+ [License](#License)
+&nbsp;+ [Introduction](#Introduction)\
+&nbsp;+ [Installation](#Installation)\
+&nbsp;+ [Usage](#Usage)\
+&nbsp;&nbsp;&nbsp;&nbsp;|-- [Accepted query terms](#Accepted-query-terms)\
+&nbsp;&nbsp;&nbsp;&nbsp;|-- [Optional parameters](#Optional-parameters)\
+&nbsp;&nbsp;&nbsp;&nbsp;|-- [Meta information](#Meta-information)\
+&nbsp;+ [Try out online](#Try-out-online)\
+&nbsp;+ [Authors](#Authors)\
+&nbsp;+ [Citation](#Citation)\
+&nbsp;+ [License](#License)
 
 
 ## Introduction
