@@ -1,9 +1,9 @@
 ---
-title: ""
+title: "MMUS Prio"
 output: BiocStyle::html_document
 author: "Matthias Munz"
 vignette: >
-    %\VignetteIndexEntry{prioritization}
+    %\VignetteIndexEntry{Prioritization}
     %\VignetteEngine{knitr::rmarkdown}
     %\VignetteEncoding{UTF-8}
 ---

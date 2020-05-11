@@ -1,9 +1,9 @@
 ---
-title: ""
+title: "MMUS Finemap"
 output: BiocStyle::html_document
 author: "Matthias Munz"
 vignette: >
-    %\VignetteIndexEntry{finemapping}
+    %\VignetteIndexEntry{Finemapping}
     %\VignetteEngine{knitr::rmarkdown}
     %\VignetteEncoding{UTF-8}
 ---
