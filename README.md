@@ -29,6 +29,11 @@ browseVignettes(mmus)
 help(mmus)
 ```
 
+# Loading package
+```{r}
+library(mmus)
+```
+
 ## Usage
 
 
