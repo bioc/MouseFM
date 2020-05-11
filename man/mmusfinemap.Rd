@@ -24,6 +24,10 @@ mmusfinemap(
 
 \item{end}{Optional chromosomal end position of target region (GRCm38). NA by default.}
 
+\item{strain1}{First strain(s).}
+
+\item{strain2}{Second strain(s).}
+
 \item{consequence}{Vector containing consequence types. NA by default.}
 
 \item{impact}{Vector containing impact types. NA by default.}
@@ -42,6 +46,10 @@ Data frame or GenomicRanges::GRanges object containing result data.
 Finemapping
 }
 \examples{
-mmusfinemap("chr1", start=5000000, end=6000000, strain1=c("C57BL_6J"), strain2=c("129S1_SvImJ", "129S5SvEvBrd", "AKR_J"))
-mmusfinemap("chr1", start=5000000, end=6000000, strain1=c("C57BL_6J"), strain2=c("AKR_J", "A_J", "BALB_cJ"))
+mmusfinemap("chr1", start=5000000, end=6000000,
+strain1=c("C57BL_6J"), strain2=c("129S1_SvImJ", "129S5SvEvBrd", "AKR_J"))
+mmusfinemap("chr1", start=5000000, end=6000000,
+strain1=c("C57BL_6J"), strain2=c("AKR_J", "A_J", "BALB_cJ"))
+mmusfinemap("chr1", start=5000000, end=6000000,
+strain1=c("C57BL_6J"), strain2=c("NOD_ShiLtJ", "CBA_J", "KK_HiJ", "PWK_PhJ"), thr2=1)
 }

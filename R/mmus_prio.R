@@ -27,8 +27,7 @@ source("R/make_query.R")
 #'@param max_set_size Maximum set of strains.
 #'@param min_strain_benef Minimum reduction factor (min) of a single strain.
 #'@return Dataframe
-#'@examples df = mmusprio("chr1", start=5000000, end=6000000)
-#'mmusprio("chr1", start=5000000, end=6000000, strain1="C57BL_6J", strain2="AKR_J")
+#'@examples mmusprio("chr1", start=5000000, end=6000000, strain1="C57BL_6J", strain2="AKR_J")
 #'@export
 mmusprio = function(chr, start = NA, end = NA, strain1, strain2, consequence = NA, impact = NA, min_strain_benef = 0.1, max_set_size = 3){
 
@@ -59,7 +58,7 @@ mmusprio = function(chr, start = NA, end = NA, strain1, strain2, consequence = N
 
   # Calculate reduction factors
   message("Calculate reduction factors...")
-  geno.add_strains = res[!(tolower(names(geno)) %in% c("chr", "pos", "rsid", "ref", "alt", "consequences", tolower(strain1), tolower(strain2)))]
+  geno.add_strains = geno[!(tolower(names(geno)) %in% c("chr", "pos", "rsid", "ref", "alt", "consequences", tolower(strain1), tolower(strain2)))]
   rf = comb(geno.add_strains, min_strain_benef, max_set_size)
 
   rf = cbind(strain1 = rep(strain1, nrow(rf)), strain2 = rep(strain2, nrow(rf)), rf[rev(order(rf$min)),])
@@ -68,7 +67,7 @@ mmusprio = function(chr, start = NA, end = NA, strain1, strain2, consequence = N
   return(list(genotypes = geno, reduction = rf))
 }
 
-
+#'Strain combination builder
 #'@description Generate strain sets and calculate reduction factors
 #'@param geno Data frame of genotypes for additional strains.
 #'@param max_set_size Maximum set of strains.
@@ -77,6 +76,7 @@ mmusprio = function(chr, start = NA, end = NA, strain1, strain2, consequence = N
 #'@keywords internal
 comb = function(geno, min_strain_benef = 0.1, max_set_size = 3){
 
+  combination = NULL
   res.list = list()
   n_strains = ncol(geno)
 
@@ -105,6 +105,7 @@ comb = function(geno, min_strain_benef = 0.1, max_set_size = 3){
 }
 
 
+#'Reduction factor calculation
 #'@description Generate strain sets and calculate reduction factors
 #'@param combs Data frame of strain sets.
 #'@param geno Data frame of genotypes for additional strains.
@@ -115,7 +116,7 @@ reduction = function(combs, geno){
   res = t(apply(combs, 1, function(x) {
 
     geno.subset = dplyr::as_tibble(geno[,x]) # For single column data frames
-    rf = dplyr::mutate(dplyr::group_by_all(geno.subset), reduction_factor = 1-(n()/nrow(geno.subset)))
+    rf = dplyr::mutate(dplyr::group_by_all(geno.subset), reduction_factor = 1-(dplyr::n()/nrow(geno.subset)))
 
     return(c(mean(rf$reduction_factor), min(rf$reduction_factor), max(rf$reduction_factor)))
   }))
@@ -127,23 +128,25 @@ reduction = function(combs, geno){
 }
 
 
-#'@description Get best combinations
+#'Best combinations
+#'@description Get best strain combinations
 #'@param rf Reduction factors data frame.
 #'@param n_top Number if combinations to be returned.
 #'@return Dataframe
 #'@examples r = mmusprio("chr1", start=5000000, end=6000000, strain1="C57BL_6J", strain2="AKR_J")
-#'get_top(r.reduction_factors, 3)
+#'get_top(r$reduction, 3)
 #'@export
 get_top = function(rf, n_top){
 
-  reduction_factors = reduction_factors[rev(order(reduction_factors$min)),]
-  top.n = reduction_factors[1:min(nrow(reduction_factors), n_top), ]
+  rf = rf[rev(order(rf$min)),]
+  top.n = rf[1:min(nrow(rf), n_top), ]
 
   return(top.n)
 }
 
 
-#'@description Get best combinations
+#'Visualize
+#'@description Visualize reduction factors
 #'@param geno Genotype data frame.
 #'@param rf Reduction factor data frame.
 #'@param n_top Number if combinations to be returned.
@@ -155,12 +158,14 @@ get_top = function(rf, n_top){
 #'@export
 vis_reduction_factors = function(geno, rf, n_top){
 
+  pos = strain = allele = NULL
+
   chr = geno$chr[1]
   start = min(geno$pos)
   end = max(geno$pos)
-  strain1 = reduction_factors$strain1[1]
-  strain2 = reduction_factors$strain2[1]
-  top.n = get_top(reduction_factors, n_top)
+  strain1 = rf$strain1[1]
+  strain2 = rf$strain2[1]
+  top.n = get_top(rf, n_top)
 
   geno = geno[order(geno$pos),]
   geno$pos = 1:nrow(geno)

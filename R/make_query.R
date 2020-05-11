@@ -13,7 +13,7 @@
 source("R/meta.R")
 
 
-#'URL builder
+#'Filter query builder
 #'@param chr Chromosome name.
 #'@param start Optional chromosomal start position. NA by default.
 #'@param end Optional chromosomal end position. NA by default.
@@ -21,7 +21,6 @@ source("R/meta.R")
 #'@param impacts Vector containing impact types. NA by default.
 #'@return Query string.
 #'@keywords internal
-#'@examples filter_query("chr1", start=5000000, end=6000000, impact=c("HIGH", "MODERATE"), consequence=c("feature_truncation", "regulatory_region_variant"))
 filter_query = function(chr, start = NA, end = NA, consequence = NA, impact = NA){
 
   stopifnot(!missing(chr))
@@ -30,8 +29,10 @@ filter_query = function(chr, start = NA, end = NA, consequence = NA, impact = NA
   stopifnot(is.na(consequence) || is.vector(consequence))
   stopifnot(is.na(impact) || is.vector(impact))
 
+
   # Remove scientific notation in printing
   options(scipen=999)
+
 
   # Build URL
   q = paste0('http://mmusserv.genehopper.de/rest/mmusfilter/', chr)
@@ -73,7 +74,7 @@ filter_query = function(chr, start = NA, end = NA, consequence = NA, impact = NA
 }
 
 
-#'URL builder
+#'Finemap query builder
 #'@param chr Chromosome name.
 #'@param start Optional chromosomal start position. NA by default.
 #'@param end Optional chromosomal end position. NA by default.
@@ -85,8 +86,6 @@ filter_query = function(chr, start = NA, end = NA, consequence = NA, impact = NA
 #'@param thr2 Number discordant strains in strain2. Between 0 and length(strain2)-1. 0 by default.
 #'@return Query string.
 #'@keywords internal
-#'@examples finemap_query("chr1", start=5000000, end=6000000, strain1=c("C57BL_6J"), strain2=c("129S1_SvImJ", "129S5SvEvBrd", "AKR_J"), impact=c("HIGH", "MODERATE"), consequence=c("feature_truncation", "regulatory_region_variant"))
-#'finemap_query("chr1", start=5000000, end=6000000, strain1=c("C57BL_6J"), strain2=c("AKR_J", "A_J", "BALB_cJ"))
 finemap_query = function(chr, start = NA, end = NA, strain1, strain2, consequence = NA, impact = NA, thr1 = 0, thr2 = 0){
 
   stopifnot(!missing(chr))
@@ -98,8 +97,10 @@ finemap_query = function(chr, start = NA, end = NA, strain1, strain2, consequenc
   stopifnot(is.numeric(thr1) && thr1 >= 0 && thr1 < length(strain1))
   stopifnot(is.numeric(thr2) && thr2 >= 0 && thr2 < length(strain2))
 
+
   # Remove scientific notation in printing
   options(scipen=999)
+
 
   # Build URL
   q = paste0('http://mmusserv.genehopper.de/rest/mmusfinemap/', chr)

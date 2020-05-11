@@ -10,6 +10,7 @@
 #   roxygen2::roxygenise()
 
 
+#'Available strains
 #'@description Available strains
 #'@return Vector
 #'@export
@@ -94,6 +95,7 @@ avail_strains = function(){
 }
 
 
+#'Available consequences
 #'@description Available consequence and impact types
 #'@return Data frame
 #'@export
