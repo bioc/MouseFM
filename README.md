@@ -18,11 +18,16 @@ This **R** package provides
 
 ## Installation
 ```R
-devtools::install_github('matmu/mmus')
+devtools::install_github('matmu/mmus', build_vignettes = TRUE)
 ```
 
 **Please note**: A valid internet connection (HTTP port: 80) is required in order to install and use the package.
 
+## Help pages
+```R
+browseVignettes(mmus)
+help(mmus)
+```
 
 ## Usage
 
