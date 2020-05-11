@@ -26,7 +26,7 @@ devtools::install_github('matmu/mmus', build_vignettes = TRUE)
 ## Help pages
 ```R
 browseVignettes(mmus)
-help(mmus)
+help(package="mmus")
 ```
 
 ## Loading package
