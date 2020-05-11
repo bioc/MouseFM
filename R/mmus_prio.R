@@ -186,7 +186,7 @@ vis_reduction_factors = function(geno, rf, n_top){
       ggplot2::scale_fill_manual(values=c("#3b5998", "#e9ebee","#f6f7f9"), guide = ggplot2::guide_legend(title = "Allele")) +
       ggplot2::theme_bw() +
       ggplot2::labs(y="Strain", x="Position", title=paste0("Region: chr", chr, ":", scales::comma(start), "-", scales::comma(end), " (GRCm38)"),
-           subtitle=paste0("Additional strains: ", paste0(strain.comb, collapse=", "), " Reduction factor: ", top.n$min[i])) +
+           subtitle=paste0("Additional strains: ", paste0(strain.comb, collapse=", "), " Reduction factor: ", round(top.n$min[i]), digits=3)) +
       ggplot2::theme(
         axis.text.x = ggplot2::element_blank(),
         panel.border = ggplot2::element_rect(colour="black"),

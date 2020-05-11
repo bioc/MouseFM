@@ -17,7 +17,7 @@ knitr::opts_chunk$set(
 ```
 
 # Introduction
-This **R** package provides an in-silico method finemapping of genetic regions in mice.
+This **R** package provides an in-silico method for finemapping of genetic regions in mice.
 
 
 # Installation
@@ -27,6 +27,12 @@ if(!requireNamespace("BiocManager", quietly = TRUE))
 BiocManager::install("mmus")
 ```
 
+or 
+
+```{r eval=FALSE}
+devtools::install_github('matmu/mmus', build_vignettes = TRUE)
+```
+
 # Loading package
 ```{r}
 library(mmus)
@@ -34,8 +40,9 @@ library(mmus)
 
 # Example function calls
 ```{r}
-# Call mmusfinemap to finemap a region
-mmusfinemap("chr1", start=5000000, end=6000000, strain1=c("C57BL_6J"), strain2=c("AKR_J", "A_J", "BALB_cJ"))
+# Call mmusfinemap to finemap a specific region
+res = mmusfinemap("chr1", start=5000000, end=6000000, strain1=c("C57BL_6J"), strain2=c("AKR_J", "A_J", "BALB_cJ"))
+res[1:10,]
 ```
 
 # Output of Session Info
