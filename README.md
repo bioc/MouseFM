@@ -1,6 +1,5 @@
-# Qtlizer: comprehensive QTL annotation of GWAS results
-[![Twitter](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/intent/tweet?hashtags=Qtlizer&url=https://www.biorxiv.org/content/10.1101/495903v2&screen_name=_matmu)
-
+# In-silico methods for strain prioritization and finemapping of genetic regions in mice.
+[![Twitter](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/intent/tweet?hashtags=asd&url=https://www.biorxiv.org/content/...)
 
 + [Introduction](#Introduction)\
 + [Installation](#Installation)\
