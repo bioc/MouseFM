@@ -37,7 +37,6 @@ annotate_consequences = function(snps, species){
 #'@keywords internal
 ensembl_rest_vep = function(snps, species){
 
-  #require(xml2)
 
   # Request
   server = "https://rest.ensembl.org"
