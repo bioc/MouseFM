@@ -10,7 +10,7 @@ Description: More about what it does (maybe more than one line)
 Encoding: UTF-8
 LazyData: false
 BugReports: https://github.com/matmu/mmus/issues
-Depends: R (>= 4.0.0)
+Depends: R (>= 3.6.0)
 License: GPL-3
 VignetteBuilder: knitr
 biocViews: SNP, Genetics
@@ -28,4 +28,6 @@ Imports:
     scales,
     gtools,
     tidyr,
-    data.table
+    data.table,
+    jsonlite
+RoxygenNote: 7.1.0

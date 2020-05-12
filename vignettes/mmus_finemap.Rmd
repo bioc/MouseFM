@@ -39,10 +39,15 @@ library(mmus)
 ```
 
 # Example function calls
+Call mmusfinemap to finemap a specific region
 ```{r}
-# Call mmusfinemap to finemap a specific region
 res = mmusfinemap("chr1", start=5000000, end=6000000, strain1=c("C57BL_6J"), strain2=c("AKR_J", "A_J", "BALB_cJ"))
 res[1:10,]
+```
+
+Annotate consequences and genes
+```{r eval=FALSE}
+cons = annotate_consequences(res, "mouse")
 ```
 
 # Output of Session Info

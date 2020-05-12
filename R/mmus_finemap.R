@@ -53,7 +53,6 @@ mmusfinemap = function(chr, start = NA, end = NA, strain1, strain2, consequence 
 
   # Convert to respective data types
   res[res == "-" | res == "."] = NA
-  res = res[tolower(names(res)) %in% c("rsid", "ref", "alt", "consequences", tolower(unique(strain1)), tolower(unique(strain2)))]
   res[! names(res) %in% c("rsid", "ref", "alt", "consequences")] =
     sapply(res[! names(res) %in% c("rsid", "ref", "alt", "consequences")], as.numeric)
 
@@ -72,5 +71,4 @@ mmusfinemap = function(chr, start = NA, end = NA, strain1, strain2, consequence 
     return(res)
   }
 }
-
 
