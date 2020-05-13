@@ -14,11 +14,12 @@ Depends: R (>= 3.6.0)
 License: GPL-3
 VignetteBuilder: knitr
 biocViews: SNP, Genetics
-Suggests: BiocStyle,
+Suggests:
     testthat,
     knitr,
     rmarkdown
-Imports: 
+Imports:
+    BiocStyle,
     httr,
     curl,
     GenomicRanges,
