@@ -30,8 +30,10 @@ source("R/make_query.R")
 #'@return Data frame or GenomicRanges::GRanges object containing result data.
 #'@examples mmusfinemap("chr1", start=5000000, end=6000000,
 #'strain1=c("C57BL_6J"), strain2=c("129S1_SvImJ", "129S5SvEvBrd", "AKR_J"))
+#'
 #'mmusfinemap("chr1", start=5000000, end=6000000,
 #'strain1=c("C57BL_6J"), strain2=c("AKR_J", "A_J", "BALB_cJ"))
+#'
 #'mmusfinemap("chr1", start=5000000, end=6000000,
 #'strain1=c("C57BL_6J"), strain2=c("NOD_ShiLtJ", "CBA_J", "KK_HiJ", "PWK_PhJ"), thr2=1)
 #'@export
@@ -56,6 +58,10 @@ mmusfinemap = function(chr, start = NA, end = NA, strain1, strain2, consequence 
   res[! names(res) %in% c("rsid", "ref", "alt", "consequences")] =
     sapply(res[! names(res) %in% c("rsid", "ref", "alt", "consequences")], as.numeric)
 
+
+  # Keep only input strains
+  res = res[tolower(names(res)) %in% c("rsid", "ref", "alt", "consequences",
+                                       tolower(unique(strain1)), tolower(unique(strain2)))]
 
   if(tolower(return_obj) == "granges"){
     # Create GRanges container

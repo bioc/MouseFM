@@ -13,10 +13,11 @@
 #'Annotate consequences
 #'@description Request variant consequences from Variant Effect Predictor (VEP) via Ensembl Rest Service.
 #'@param snps Data frame including columns rsid, ref, alt.
-#'@param species Species name, e.g. mouse or human.
+#'@param species Species name, e.g. mouse (GRCm38) or human (GRCh38).
 #'@return Data frame.
 #'@examples geno = mmusfinemap("chr1", start=5000000, end=6000000,
 #'strain1=c("C57BL_6J"), strain2=c("AKR_J", "A_J", "BALB_cJ"))
+#'
 #'df = annotate_consequences(geno, "mouse")
 #'@export
 annotate_consequences = function(snps, species){

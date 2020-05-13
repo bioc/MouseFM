@@ -41,7 +41,10 @@ library(mmus)
 # Example function calls
 Call mmusfinemap to finemap a specific region
 ```{r}
-res = mmusfinemap("chr1", start=5000000, end=6000000, strain1=c("C57BL_6J"), strain2=c("AKR_J", "A_J", "BALB_cJ"))
+res = test = mmusfinemap(chr=c("chr7"),strain1=c("C57BL_6J","C57L_J","CBA_J","NZB_B1NJ"),
+                   strain2=c("C3H_HEJ","MOLF_EiJ","NZW_LacJ","WSB_EiJ","SPRET_EiJ"),
+                  impact=c("HIGH", "MODERATE", "LOW"))
+
 res[1:10,]
 ```
 

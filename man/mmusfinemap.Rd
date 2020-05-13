@@ -48,8 +48,10 @@ Finemapping
 \examples{
 mmusfinemap("chr1", start=5000000, end=6000000,
 strain1=c("C57BL_6J"), strain2=c("129S1_SvImJ", "129S5SvEvBrd", "AKR_J"))
+
 mmusfinemap("chr1", start=5000000, end=6000000,
 strain1=c("C57BL_6J"), strain2=c("AKR_J", "A_J", "BALB_cJ"))
+
 mmusfinemap("chr1", start=5000000, end=6000000,
 strain1=c("C57BL_6J"), strain2=c("NOD_ShiLtJ", "CBA_J", "KK_HiJ", "PWK_PhJ"), thr2=1)
 }

@@ -138,7 +138,7 @@ finemap_query = function(chr, start = NA, end = NA, strain1, strain2, consequenc
 
   if(!is.na(impact) && is.vector(impact)){
     impacts = toupper(unique(impact))
-    all_impacts = avail_consequences()$consequence
+    all_impacts = unique(avail_consequences()$impact)
 
     if(!all(unlist(lapply(impact, function(x) x %in% all_impacts)))){
       stop(paste0("Accepted values for argument 'impact' are: ", paste0(all_impacts, collapse=", ")))

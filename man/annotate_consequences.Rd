@@ -9,7 +9,7 @@ annotate_consequences(snps, species)
 \arguments{
 \item{snps}{Data frame including columns rsid, ref, alt.}
 
-\item{species}{Species name, e.g. mouse or human.}
+\item{species}{Species name, e.g. mouse (GRCm38) or human (GRCh38).}
 }
 \value{
 Data frame.
@@ -20,5 +20,6 @@ Request variant consequences from Variant Effect Predictor (VEP) via Ensembl Res
 \examples{
 geno = mmusfinemap("chr1", start=5000000, end=6000000,
 strain1=c("C57BL_6J"), strain2=c("AKR_J", "A_J", "BALB_cJ"))
+
 df = annotate_consequences(geno, "mouse")
 }
