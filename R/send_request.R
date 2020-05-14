@@ -50,8 +50,9 @@ genehopper_request = function(q, n.tries=2, method="GET"){
   result = httr::content(response)
   result = unlist(strsplit(result , "\n"))
 
+
   # Display error message from server
-  if(is.null(grep("^#", result))){
+  if(length(grep("^#", result)) == 0){
     warning(result)
     return()
   }
@@ -78,6 +79,7 @@ genehopper_request = function(q, n.tries=2, method="GET"){
   d = as.data.frame(m, stringsAsFactors=FALSE)
   colnames(d) = header
   comment(d) = meta
+
 
   return(d)
 }

@@ -7,8 +7,8 @@
 avail_strains()
 }
 \value{
-Vector
+Vector.
 }
 \description{
-Available strains
+There are 37 strains available.
 }

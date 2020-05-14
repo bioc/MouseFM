@@ -17,11 +17,11 @@ mmusprio(
 )
 }
 \arguments{
-\item{chr}{Chromosome name.}
+\item{chr}{Chromosome name or vector of chromosome names.}
 
-\item{start}{Optional chromosomal start position of target region (GRCm38). NA by default.}
+\item{start}{Optional Chromosomal start position of target region (GRCm38). Multiple positions can be passed as vector. NA by default.}
 
-\item{end}{Optional chromosomal end position of target region (GRCm38). NA by default.}
+\item{end}{Optional Chromosomal end position of target region (GRCm38). Multiple positions can be passed as vector. NA by default.}
 
 \item{strain1}{First strain.}
 
@@ -42,5 +42,7 @@ Dataframe
 Prioritize mouse strains
 }
 \examples{
-mmusprio("chr1", start=5000000, end=6000000, strain1="C57BL_6J", strain2="AKR_J")
+res = mmusprio("chr1", start=5000000, end=6000000, strain1="C57BL_6J", strain2="AKR_J")
+
+comment(res$genotypes)
 }

@@ -11,8 +11,8 @@
 
 
 #'Available strains
-#'@description Available strains
-#'@return Vector
+#'@description There are 37 strains available.
+#'@return Vector.
 #'@export
 avail_strains = function(){
 
@@ -96,8 +96,8 @@ avail_strains = function(){
 
 
 #'Available consequences
-#'@description Available consequence and impact types
-#'@return Data frame
+#'@description Available consequence and impact types.
+#'@return Data frame.
 #'@export
 avail_consequences = function(){
   df = data.frame(consequence = c("splice_acceptor_variant",
@@ -208,4 +208,53 @@ avail_consequences = function(){
   return(df)
 }
 
+
+#'Available chromosomes
+#'@description Available mouse chromosomes.
+#'@return Data frame
+#'@export
+avail_chromosomes = function(){
+
+  df = data.frame(chr = 1:19,
+                  min_pos = c(3000185,
+                              3050115,
+                              3000104,
+                              3050235,
+                              3000846,
+                              3050051,
+                              3001115,
+                              3000222,
+                              3000063,
+                              3100281,
+                              3100189,
+                              3000048,
+                              3000177,
+                              3000306,
+                              3050014,
+                              3000350,
+                              3000030,
+                              3000033,
+                              3000287),
+                  max_pos = c(195371784,
+                              182012539,
+                              159939640,
+                              156357848,
+                              151734582,
+                              149586443,
+                              145340897,
+                              129299441,
+                              124491297,
+                              130594765,
+                              121977829,
+                              120028129,
+                              120321311,
+                              124801447,
+                              103943534,
+                              98107534,
+                              94886990,
+                              90601947,
+                              61330097))
+
+  return(df)
+}
 

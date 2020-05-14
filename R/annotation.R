@@ -27,7 +27,7 @@ annotate_consequences = function(snps, species){
   res = lapply(df.split, function(x) {message(paste0("Query ", nrow(x), " variants..."))
                ensembl_rest_vep(x, "mouse")})
 
-  return(data.table::rbindlist(res))
+  return(as.data.frame(data.table::rbindlist(res)))
 }
 
 

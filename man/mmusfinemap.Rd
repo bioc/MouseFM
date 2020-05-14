@@ -18,11 +18,11 @@ mmusfinemap(
 )
 }
 \arguments{
-\item{chr}{Chromosome name.}
+\item{chr}{Chromosome name or vector of chromosome names.}
 
-\item{start}{Optional chromosomal start position of target region (GRCm38). NA by default.}
+\item{start}{Optional Chromosomal start position of target region (GRCm38). Multiple positions can be passed as vector. NA by default.}
 
-\item{end}{Optional chromosomal end position of target region (GRCm38). NA by default.}
+\item{end}{Optional Chromosomal end position of target region (GRCm38). Multiple positions can be passed as vector. NA by default.}
 
 \item{strain1}{First strain(s).}
 
@@ -49,8 +49,8 @@ Finemapping
 mmusfinemap("chr1", start=5000000, end=6000000,
 strain1=c("C57BL_6J"), strain2=c("129S1_SvImJ", "129S5SvEvBrd", "AKR_J"))
 
-mmusfinemap("chr1", start=5000000, end=6000000,
-strain1=c("C57BL_6J"), strain2=c("AKR_J", "A_J", "BALB_cJ"))
+mmusfinemap(chr=c("chr7", "1"),strain1=c("C57BL_6J","C57L_J","CBA_J","NZB_B1NJ"),
+           strain2=c("C3H_HEJ","MOLF_EiJ","NZW_LacJ","WSB_EiJ","SPRET_EiJ"))
 
 mmusfinemap("chr1", start=5000000, end=6000000,
 strain1=c("C57BL_6J"), strain2=c("NOD_ShiLtJ", "CBA_J", "KK_HiJ", "PWK_PhJ"), thr2=1)

@@ -7,8 +7,8 @@
 avail_consequences()
 }
 \value{
-Data frame
+Data frame.
 }
 \description{
-Available consequence and impact types
+Available consequence and impact types.
 }

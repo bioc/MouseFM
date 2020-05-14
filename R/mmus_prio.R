@@ -17,9 +17,9 @@ source("R/make_query.R")
 
 #'MMUS Prio
 #'@description Prioritize mouse strains
-#'@param chr Chromosome name.
-#'@param start Optional chromosomal start position of target region (GRCm38). NA by default.
-#'@param end Optional chromosomal end position of target region (GRCm38). NA by default.
+#'@param chr Chromosome name or vector of chromosome names.
+#'@param start Optional Chromosomal start position of target region (GRCm38). Multiple positions can be passed as vector. NA by default.
+#'@param end Optional Chromosomal end position of target region (GRCm38). Multiple positions can be passed as vector. NA by default.
 #'@param strain1 First strain.
 #'@param strain2 Second strain.
 #'@param consequence Vector containing consequence types. NA by default.
@@ -27,7 +27,9 @@ source("R/make_query.R")
 #'@param max_set_size Maximum set of strains.
 #'@param min_strain_benef Minimum reduction factor (min) of a single strain.
 #'@return Dataframe
-#'@examples mmusprio("chr1", start=5000000, end=6000000, strain1="C57BL_6J", strain2="AKR_J")
+#'@examples res = mmusprio("chr1", start=5000000, end=6000000, strain1="C57BL_6J", strain2="AKR_J")
+#'
+#'comment(res$genotypes)
 #'@export
 mmusprio = function(chr, start = NA, end = NA, strain1, strain2, consequence = NA, impact = NA, min_strain_benef = 0.1, max_set_size = 3){
 
@@ -40,14 +42,15 @@ mmusprio = function(chr, start = NA, end = NA, strain1, strain2, consequence = N
   stopifnot(is.vector(strain1), is.vector(strain2), length(strain1) == 1, length(strain2) == 1)
 
 
-  # Create URL
-  message("Build query...")
-  q = finemap_query(chr, start, end, strain1, strain2, consequence, impact)
+  # Create URL and query data
+  res = lapply(1:length(chr), function(i){
+    message(paste0("Query ", chr[i], if(is.numeric(start[i]) && is.numeric(end[i])) paste0(":", start[i], "-", end[i]) else ""))
+    q = finemap_query(chr[i], start[i], end[i], strain1, strain2, consequence, impact)
+    genehopper_request(q)
+  })
 
 
-  # Send query
-  message("Retrieve data...")
-  geno = genehopper_request(q)
+  geno = as.data.frame(data.table::rbindlist(res))
 
 
   # Convert to respective data types
@@ -56,16 +59,23 @@ mmusprio = function(chr, start = NA, end = NA, strain1, strain2, consequence = N
     sapply(geno[! names(geno) %in% c("rsid", "ref", "alt", "consequences")], as.numeric)
 
 
+  # Add comments
+  comment(geno) = comment(res[[1]])
+
+
   # Calculate reduction factors
   message("Calculate reduction factors...")
   geno.add_strains = geno[!(tolower(names(geno)) %in% c("chr", "pos", "rsid", "ref", "alt", "consequences", tolower(strain1), tolower(strain2)))]
   rf = comb(geno.add_strains, min_strain_benef, max_set_size)
 
+
   rf = cbind(strain1 = rep(strain1, nrow(rf)), strain2 = rep(strain2, nrow(rf)), rf[rev(order(rf$min)),])
   row.names(rf) <- 1:nrow(rf)
 
+
   return(list(genotypes = geno, reduction = rf))
 }
+
 
 #'Strain combination builder
 #'@description Generate strain sets and calculate reduction factors
