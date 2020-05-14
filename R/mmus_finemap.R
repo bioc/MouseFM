@@ -45,40 +45,39 @@ mmusfinemap = function(chr, start = NULL, end = NULL, strain1, strain2, conseque
   res = lapply(1:length(chr), function(i){
     message(paste0("Query ", chr[i], if(is.numeric(start[i]) && is.numeric(end[i])) paste0(":", start[i], "-", end[i]) else ""))
     q = finemap_query(chr[i], start[i], end[i], strain1, strain2, consequence, impact, thr1, thr2)
-    #genehopper_request(q)
+    genehopper_request(q)
   })
 
-  return()
 
-  # geno = as.data.frame(data.table::rbindlist(res))
-  #
-  #
-  # # Convert to respective data types
-  # geno[geno == "-" | geno == "."] = NA
-  # geno[! names(geno) %in% c("rsid", "ref", "alt", "consequences")] =
-  #   sapply(geno[! names(geno) %in% c("rsid", "ref", "alt", "consequences")], as.numeric)
-  #
-  #
-  # # Keep only input strains
-  # geno = geno[tolower(names(geno)) %in% c("rsid", "ref", "alt", "consequences",
-  #                                      tolower(unique(strain1)), tolower(unique(strain2)))]
-  #
-  # # Add comments
-  # comment(geno) = comment(res[[1]])
-  #
-  #
-  # if(tolower(return_obj) == "granges"){
-  #   # Create GRanges container
-  #   gres = GenomicRanges::makeGRangesFromDataFrame(geno, start.field = "pos", end.field = "pos",
-  #                                                  seqnames.field = "chr", keep.extra.columns = TRUE)
-  #
-  #   GenomicRanges::strand(gres) = "+"
-  #   comment(gres) = comment(geno)
-  #
-  #   return(gres)
-  #
-  # } else {
-  #   return(geno)
-  # }
+  geno = as.data.frame(data.table::rbindlist(res))
+
+
+  # Convert to respective data types
+  geno[geno == "-" | geno == "."] = NA
+  geno[! names(geno) %in% c("rsid", "ref", "alt", "consequences")] =
+    sapply(geno[! names(geno) %in% c("rsid", "ref", "alt", "consequences")], as.numeric)
+
+
+  # Keep only input strains
+  geno = geno[tolower(names(geno)) %in% c("rsid", "ref", "alt", "consequences",
+                                       tolower(unique(strain1)), tolower(unique(strain2)))]
+
+  # Add comments
+  comment(geno) = comment(res[[1]])
+
+
+  if(tolower(return_obj) == "granges"){
+    # Create GRanges container
+    gres = GenomicRanges::makeGRangesFromDataFrame(geno, start.field = "pos", end.field = "pos",
+                                                   seqnames.field = "chr", keep.extra.columns = TRUE)
+
+    GenomicRanges::strand(gres) = "+"
+    comment(gres) = comment(geno)
+
+    return(gres)
+
+  } else {
+    return(geno)
+  }
 }
 
