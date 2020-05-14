@@ -27,7 +27,7 @@ if(!requireNamespace("BiocManager", quietly = TRUE))
 BiocManager::install("mmus")
 ```
 
-or 
+or
 
 ```{r eval=FALSE}
 devtools::install_github('matmu/mmus', build_vignettes = TRUE)
@@ -41,8 +41,9 @@ library(mmus)
 # Example function calls
 Call mmusfinemap to finemap a specific region
 ```{r}
-res = mmusfinemap(chr=c("chr7"),strain1=c("C57BL_6J","C57L_J","CBA_J","NZB_B1NJ"),
-                   strain2=c("C3H_HEJ","MOLF_EiJ","NZW_LacJ","WSB_EiJ","SPRET_EiJ"),
+res = mmusfinemap(chr="chr7",
+                  strain1=c("C57BL_6J","C57L_J","CBA_J","NZB_B1NJ"),
+                  strain2=c("C3H_HEJ","MOLF_EiJ","NZW_LacJ","WSB_EiJ","SPRET_EiJ"),
                   impact=c("HIGH", "MODERATE", "LOW"))
 
 res[1:10,]
