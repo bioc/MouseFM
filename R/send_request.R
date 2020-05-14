@@ -16,12 +16,18 @@
 #'@param method HTTP method to use
 #'@return Data frame.
 #'@keywords internal
-#genehopper_request("http://mmusserv.genehopper.de/rest/mmusprio/chr1:5000000-6000000")
 genehopper_request = function(q, n.tries=2, method="GET"){
+
 
   stopifnot(is.numeric(n.tries))
   stopifnot(method == "GET" || method == "POST")
   stopifnot(nchar(q) > 0)
+
+
+  # Check if there is an internet connection
+  if (!curl::has_internet())
+    stop("No internet connection detected...")
+
 
   # Send HTTP request and retrieve response
   while(n.tries > 0){

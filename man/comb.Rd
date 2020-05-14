@@ -9,9 +9,9 @@ comb(geno, min_strain_benef = 0.1, max_set_size = 3)
 \arguments{
 \item{geno}{Data frame of genotypes for additional strains.}
 
-\item{min_strain_benef}{Minimum reduction factor (min) of a single strain.}
+\item{min_strain_benef}{Minimum reduction factor (min) of a single strain. Default is 0.1.}
 
-\item{max_set_size}{Maximum set of strains.}
+\item{max_set_size}{Maximum set of strains. Default is 3.}
 }
 \value{
 Dataframe

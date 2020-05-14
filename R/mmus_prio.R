@@ -17,13 +17,13 @@ source("R/make_query.R")
 
 #'MMUS Prio
 #'@description Prioritize mouse strains
-#'@param chr Chromosome name or vector of chromosome names.
-#'@param start Optional Chromosomal start position of target region (GRCm38). Multiple positions can be passed as vector. NA by default.
-#'@param end Optional Chromosomal end position of target region (GRCm38). Multiple positions can be passed as vector. NA by default.
+#'@param chr Vector of chromosome names.
+#'@param start Optional vector of chromosomal start positions of target regions (GRCm38).
+#'@param end Optional vector of chromosomal end positions of target regions (GRCm38).
 #'@param strain1 First strain.
 #'@param strain2 Second strain.
-#'@param consequence Vector containing consequence types. NA by default.
-#'@param impact Vector containing impact types. NA by default.
+#'@param consequence Optional vector of consequence types.
+#'@param impact Optional vector of impact types.
 #'@param max_set_size Maximum set of strains.
 #'@param min_strain_benef Minimum reduction factor (min) of a single strain.
 #'@return Dataframe
@@ -31,12 +31,7 @@ source("R/make_query.R")
 #'
 #'comment(res$genotypes)
 #'@export
-mmusprio = function(chr, start = NA, end = NA, strain1, strain2, consequence = NA, impact = NA, min_strain_benef = 0.1, max_set_size = 3){
-
-
-  # Check if there is an internet connection
-  if (!curl::has_internet())
-    stop("No internet connection detected...")
+mmusprio = function(chr, start = NULL, end = NULL, strain1, strain2, consequence = NULL, impact = NULL, min_strain_benef = 0.1, max_set_size = 3){
 
 
   stopifnot(is.vector(strain1), is.vector(strain2), length(strain1) == 1, length(strain2) == 1)
@@ -80,8 +75,8 @@ mmusprio = function(chr, start = NA, end = NA, strain1, strain2, consequence = N
 #'Strain combination builder
 #'@description Generate strain sets and calculate reduction factors
 #'@param geno Data frame of genotypes for additional strains.
-#'@param max_set_size Maximum set of strains.
-#'@param min_strain_benef Minimum reduction factor (min) of a single strain.
+#'@param max_set_size Maximum set of strains. Default is 3.
+#'@param min_strain_benef Minimum reduction factor (min) of a single strain. Default is 0.1.
 #'@return Dataframe
 #'@keywords internal
 comb = function(geno, min_strain_benef = 0.1, max_set_size = 3){
@@ -143,8 +138,9 @@ reduction = function(combs, geno){
 #'@param rf Reduction factors data frame.
 #'@param n_top Number if combinations to be returned.
 #'@return Dataframe
-#'@examples r = mmusprio("chr1", start=5000000, end=6000000, strain1="C57BL_6J", strain2="AKR_J")
-#'get_top(r$reduction, 3)
+#'@examples l = mmusprio("chr1", start=5000000, end=6000000, strain1="C57BL_6J", strain2="AKR_J")
+#'
+#'get_top(l$reduction, 3)
 #'@export
 get_top = function(rf, n_top){
 
@@ -161,8 +157,10 @@ get_top = function(rf, n_top){
 #'@param rf Reduction factor data frame.
 #'@param n_top Number if combinations to be returned.
 #'@return Dataframe
-#'@examples r = mmusprio("chr1", start=5000000, end=6000000, strain1="C57BL_6J", strain2="AKR_J")
-#'plots = vis_reduction_factors(r$genotypes, r$reduction, 2)
+#'@examples l = mmusprio("chr1", start=5000000, end=6000000, strain1="C57BL_6J", strain2="AKR_J")
+#'
+#'plots = vis_reduction_factors(l$genotypes, l$reduction, 2)
+#'
 #'plots[[1]]
 #'plots[[2]]
 #'@export
@@ -211,31 +209,3 @@ vis_reduction_factors = function(geno, rf, n_top){
   return(plots)
 }
 
-
-# if(i == 1 && max_set_size > 1){
-#
-#   strain2min_reduction = hash::hash(keys=unlist(combs), values=red$min)
-#
-#   best_strain = unlist(combs[red$min == max(red$min),])
-#   message(best_strain)
-#
-#   bad_red_strains = combs[red$min < min_tot_benef - strain2min_reduction[[best_strain]],]
-#   bad_red_strains = bad_red_strains[bad_red_strains != best_strain]
-#
-#   message(paste0(length(bad_red_strains), " bad strains"))
-#
-#   other_combs = as.data.frame(gtools::combinations(length(bad_red_strains), max_set_size-i, bad_red_strains))
-#
-#   message(paste0(nrow(other_combs), " combs"))
-#
-#   r = t(apply(other_combs, 1, function(x){
-#     sapply(x, function(y)  strain2min_reduction[[y]])
-#   }))
-#   if(max_set_size-i > 1) r = rowSums(r)
-#
-#   other_combs.remain = other_combs[r >= min_tot_benef - strain2min_reduction[[best_strain]],]
-#
-#   bad_red_strains.remain = unique(unlist(other_combs.remain))
-#
-#   message(paste0(length(bad_red_strains.remain), " bad strains remain"))
-# }

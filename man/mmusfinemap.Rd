@@ -6,31 +6,31 @@
 \usage{
 mmusfinemap(
   chr,
-  start = NA,
-  end = NA,
+  start = NULL,
+  end = NULL,
   strain1,
   strain2,
-  consequence = NA,
-  impact = NA,
+  consequence = NULL,
+  impact = NULL,
   thr1 = 0,
   thr2 = 0,
   return_obj = "dataframe"
 )
 }
 \arguments{
-\item{chr}{Chromosome name or vector of chromosome names.}
+\item{chr}{Vector of chromosome names.}
 
-\item{start}{Optional Chromosomal start position of target region (GRCm38). Multiple positions can be passed as vector. NA by default.}
+\item{start}{Optional vector of chromosomal start positions of target regions (GRCm38).}
 
-\item{end}{Optional Chromosomal end position of target region (GRCm38). Multiple positions can be passed as vector. NA by default.}
+\item{end}{Optional vector of chromosomal end positions of target regions (GRCm38).}
 
 \item{strain1}{First strain(s).}
 
 \item{strain2}{Second strain(s).}
 
-\item{consequence}{Vector containing consequence types. NA by default.}
+\item{consequence}{Optional vector of consequence types.}
 
-\item{impact}{Vector containing impact types. NA by default.}
+\item{impact}{Optional vector of impact types.}
 
 \item{thr1}{Number discordant strains in strain1. Between 0 and length(strain1)-1. 0 by default.}
 
@@ -47,11 +47,11 @@ Finemapping
 }
 \examples{
 mmusfinemap("chr1", start=5000000, end=6000000,
-strain1=c("C57BL_6J"), strain2=c("129S1_SvImJ", "129S5SvEvBrd", "AKR_J"))
+           strain1=c("C57BL_6J"), strain2=c("129S1_SvImJ", "129S5SvEvBrd", "AKR_J"))
 
 mmusfinemap(chr=c("chr7", "1"),strain1=c("C57BL_6J","C57L_J","CBA_J","NZB_B1NJ"),
            strain2=c("C3H_HEJ","MOLF_EiJ","NZW_LacJ","WSB_EiJ","SPRET_EiJ"))
 
 mmusfinemap("chr1", start=5000000, end=6000000,
-strain1=c("C57BL_6J"), strain2=c("NOD_ShiLtJ", "CBA_J", "KK_HiJ", "PWK_PhJ"), thr2=1)
+           strain1=c("C57BL_6J"), strain2=c("NOD_ShiLtJ", "CBA_J", "KK_HiJ", "PWK_PhJ"), thr2=1)
 }

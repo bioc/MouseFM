@@ -6,30 +6,30 @@
 \usage{
 mmusprio(
   chr,
-  start = NA,
-  end = NA,
+  start = NULL,
+  end = NULL,
   strain1,
   strain2,
-  consequence = NA,
-  impact = NA,
+  consequence = NULL,
+  impact = NULL,
   min_strain_benef = 0.1,
   max_set_size = 3
 )
 }
 \arguments{
-\item{chr}{Chromosome name or vector of chromosome names.}
+\item{chr}{Vector of chromosome names.}
 
-\item{start}{Optional Chromosomal start position of target region (GRCm38). Multiple positions can be passed as vector. NA by default.}
+\item{start}{Optional vector of chromosomal start positions of target regions (GRCm38).}
 
-\item{end}{Optional Chromosomal end position of target region (GRCm38). Multiple positions can be passed as vector. NA by default.}
+\item{end}{Optional vector of chromosomal end positions of target regions (GRCm38).}
 
 \item{strain1}{First strain.}
 
 \item{strain2}{Second strain.}
 
-\item{consequence}{Vector containing consequence types. NA by default.}
+\item{consequence}{Optional vector of consequence types.}
 
-\item{impact}{Vector containing impact types. NA by default.}
+\item{impact}{Optional vector of impact types.}
 
 \item{min_strain_benef}{Minimum reduction factor (min) of a single strain.}
 

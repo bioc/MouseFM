@@ -14,20 +14,20 @@ source("R/meta.R")
 
 
 #'Filter query builder
-#'@param chr Chromosome name.
-#'@param start Optional chromosomal start position. NA by default.
-#'@param end Optional chromosomal end position. NA by default.
-#'@param consequences Vector containing consequence types. NA by default.
-#'@param impacts Vector containing impact types. NA by default.
+#'@param chr Vector of chromosome names.
+#'@param start Optional vector of chromosomal start positions of target regions (GRCm38).
+#'@param end Optional vector of chromosomal end positions of target regions (GRCm38).
+#'@param consequence Optional vector of consequence types.
+#'@param impact Optional vector of impact types.
 #'@return Query string.
 #'@keywords internal
-filter_query = function(chr, start = NA, end = NA, consequence = NA, impact = NA){
+filter_query = function(chr, start = NULL, end = NULL, consequence = NULL, impact = NULL){
 
   stopifnot(!missing(chr))
-  stopifnot(is.na(start) || (is.numeric(start) && start%%1==0 && start>0))
-  stopifnot(is.na(end) || (is.numeric(end) && end%%1==0 && end>0))
-  stopifnot(is.na(consequence) || is.vector(consequence))
-  stopifnot(is.na(impact) || is.vector(impact))
+  stopifnot(is.null(start) || (is.numeric(start) && start%%1==0 && start>0))
+  stopifnot(is.null(end) || (is.numeric(end) && end%%1==0 && end>0))
+  stopifnot(is.null(consequence) || is.vector(consequence))
+  stopifnot(is.null(impact) || is.vector(impact))
 
 
   # Remove scientific notation in printing
@@ -37,12 +37,12 @@ filter_query = function(chr, start = NA, end = NA, consequence = NA, impact = NA
   # Build URL
   q = paste0('http://mmusserv.genehopper.de/rest/mmusfilter/', chr)
 
-  if(!is.na(start) && !is.na(end)){
+  if(is.numeric(start) && is.numeric(end)){
     q = paste0(q, ":", start, "-", end)
   }
 
   pars = NULL
-  if(!is.na(consequence) && is.vector(consequence)){
+  if(!is.null(consequence) && is.vector(consequence)){
     consequence = tolower(unique(consequence))
     all_consequences = avail_consequences()$consequence
 
@@ -54,7 +54,7 @@ filter_query = function(chr, start = NA, end = NA, consequence = NA, impact = NA
   }
 
 
-  if(!is.na(impact) && is.vector(impact)){
+  if(!is.null(impact) && is.vector(impact)){
     impacts = toupper(unique(impact))
     all_impacts = unique(avail_consequences()$impact)
 
@@ -75,24 +75,24 @@ filter_query = function(chr, start = NA, end = NA, consequence = NA, impact = NA
 
 
 #'Finemap query builder
-#'@param chr Chromosome name.
-#'@param start Optional chromosomal start position. NA by default.
-#'@param end Optional chromosomal end position. NA by default.
+#'@param chr Vector of chromosome names.
+#'@param start Optional vector of chromosomal start positions of target regions (GRCm38).
+#'@param end Optional vector of chromosomal end positions of target regions (GRCm38).
 #'@param strain1 First strain(s).
 #'@param strain2 Second strain(s).
-#'@param consequences Vector containing consequence types. NA by default.
-#'@param impacts Vector containing impact types. NA by default.
+#'@param consequence Optional vector of consequence types.
+#'@param impact Optional vector of impact types.
 #'@param thr1 Number discordant strains in strain1. Between 0 and length(strain1)-1. 0 by default.
 #'@param thr2 Number discordant strains in strain2. Between 0 and length(strain2)-1. 0 by default.
 #'@return Query string.
 #'@keywords internal
-finemap_query = function(chr, start = NA, end = NA, strain1, strain2, consequence = NA, impact = NA, thr1 = 0, thr2 = 0){
+finemap_query = function(chr, start = NULL, end = NULL, strain1, strain2, consequence = NULL, impact = NULL, thr1 = 0, thr2 = 0){
 
   stopifnot(!missing(chr))
-  stopifnot(is.na(start) || (is.numeric(start) && start%%1==0 && start>0))
-  stopifnot(is.na(end) || (is.numeric(end) && end%%1==0 && end>0))
-  stopifnot(is.na(consequence) || is.vector(consequence))
-  stopifnot(is.na(impact) || is.vector(impact))
+  stopifnot(is.null(start) || (is.numeric(start) && start%%1==0 && start>0))
+  stopifnot(is.null(end) || (is.numeric(end) && end%%1==0 && end>0))
+  stopifnot(is.null(consequence) || is.vector(consequence))
+  stopifnot(is.null(impact) || is.vector(impact))
   stopifnot(is.vector(strain1), is.vector(strain2))
   stopifnot(is.numeric(thr1) && thr1 >= 0 && thr1 < length(strain1))
   stopifnot(is.numeric(thr2) && thr2 >= 0 && thr2 < length(strain2))
@@ -105,7 +105,8 @@ finemap_query = function(chr, start = NA, end = NA, strain1, strain2, consequenc
   # Build URL
   q = paste0('http://mmusserv.genehopper.de/rest/mmusfinemap/', chr)
 
-  if(!is.na(start) && !is.na(end)){
+
+  if(is.numeric(start) && is.numeric(end)){
     q = paste0(q, ":", start, "-", end)
   }
 
@@ -124,7 +125,7 @@ finemap_query = function(chr, start = NA, end = NA, strain1, strain2, consequenc
   pars = c(pars, paste0("strain2=", strain2, collapse="&"))
 
 
-  if(!is.na(consequence) && is.vector(consequence)){
+  if(!is.null(consequence) && is.vector(consequence)){
     consequence = tolower(unique(consequence))
     all_consequences = avail_consequences()$consequence
 
@@ -136,7 +137,7 @@ finemap_query = function(chr, start = NA, end = NA, strain1, strain2, consequenc
   }
 
 
-  if(!is.na(impact) && is.vector(impact)){
+  if(!is.null(impact) && is.vector(impact)){
     impacts = toupper(unique(impact))
     all_impacts = unique(avail_consequences()$impact)
 
@@ -151,6 +152,7 @@ finemap_query = function(chr, start = NA, end = NA, strain1, strain2, consequenc
   if(length(pars)>0){
     q = paste0(q, "?", paste0(pars, collapse="&"))
   }
+
 
   return(q)
 }

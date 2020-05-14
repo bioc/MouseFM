@@ -16,21 +16,17 @@ source("R/make_query.R")
 
 #'MMUS Fetch
 #'@description Detch genetic variant data for chromosomal region
-#'@param chr Chromosome name or vector of chromosome names.
-#'@param start Optional Chromosomal start position of target region (GRCm38). Multiple positions can be passed as vector. NA by default.
-#'@param end Optional Chromosomal end position of target region (GRCm38). Multiple positions can be passed as vector. NA by default.
-#'@param consequence Vector containing consequence types. NA by default.
-#'@param impact Vector containing impact types. NA by default.
+#'@param chr Vector of chromosome names.
+#'@param start Optional vector of chromosomal start positions of target regions (GRCm38).
+#'@param end Optional vector of chromosomal end positions of target regions (GRCm38).
+#'@param consequence Optional vector of consequence types.
+#'@param impact Optional vector of impact types.
 #'@param return_obj The user can choose to get the result to be returned
 #'as data frame ("dataframe") or as a GenomicRanges::GRanges ("granges") object. Default value is "dataframe".
 #'@return Data frame or GenomicRanges::GRanges object containing result data.
 #'@examples mmusfetch("chr7", start=5000000, end=6000000)
 #'@export
-mmusfetch = function(chr, start = NA, end = NA, consequence = NA, impact = NA, return_obj = "dataframe"){
-
-  # Check if there is an internet connection
-  if (!curl::has_internet())
-    stop("No internet connection detected...")
+mmusfetch = function(chr, start = NULL, end = NULL, consequence = NULL, impact = NULL, return_obj = "dataframe"){
 
 
   # Create URL and query data

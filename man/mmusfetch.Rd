@@ -6,23 +6,23 @@
 \usage{
 mmusfetch(
   chr,
-  start = NA,
-  end = NA,
-  consequence = NA,
-  impact = NA,
+  start = NULL,
+  end = NULL,
+  consequence = NULL,
+  impact = NULL,
   return_obj = "dataframe"
 )
 }
 \arguments{
-\item{chr}{Chromosome name or vector of chromosome names.}
+\item{chr}{Vector of chromosome names.}
 
-\item{start}{Optional Chromosomal start position of target region (GRCm38). Multiple positions can be passed as vector. NA by default.}
+\item{start}{Optional vector of chromosomal start positions of target regions (GRCm38).}
 
-\item{end}{Optional Chromosomal end position of target region (GRCm38). Multiple positions can be passed as vector. NA by default.}
+\item{end}{Optional vector of chromosomal end positions of target regions (GRCm38).}
 
-\item{consequence}{Vector containing consequence types. NA by default.}
+\item{consequence}{Optional vector of consequence types.}
 
-\item{impact}{Vector containing impact types. NA by default.}
+\item{impact}{Optional vector of impact types.}
 
 \item{return_obj}{The user can choose to get the result to be returned
 as data frame ("dataframe") or as a GenomicRanges::GRanges ("granges") object. Default value is "dataframe".}

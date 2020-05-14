@@ -20,8 +20,10 @@ Dataframe
 Visualize reduction factors
 }
 \examples{
-r = mmusprio("chr1", start=5000000, end=6000000, strain1="C57BL_6J", strain2="AKR_J")
-plots = vis_reduction_factors(r$genotypes, r$reduction, 2)
+l = mmusprio("chr1", start=5000000, end=6000000, strain1="C57BL_6J", strain2="AKR_J")
+
+plots = vis_reduction_factors(l$genotypes, l$reduction, 2)
+
 plots[[1]]
 plots[[2]]
 }

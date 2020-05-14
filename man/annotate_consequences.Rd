@@ -17,9 +17,3 @@ Data frame.
 \description{
 Request variant consequences from Variant Effect Predictor (VEP) via Ensembl Rest Service.
 }
-\examples{
-geno = mmusfinemap("chr1", start=5000000, end=6000000,
-strain1=c("C57BL_6J"), strain2=c("AKR_J", "A_J", "BALB_cJ"))
-
-df = annotate_consequences(geno, "mouse")
-}

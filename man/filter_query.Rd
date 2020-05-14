@@ -4,18 +4,18 @@
 \alias{filter_query}
 \title{Filter query builder}
 \usage{
-filter_query(chr, start = NA, end = NA, consequence = NA, impact = NA)
+filter_query(chr, start = NULL, end = NULL, consequence = NULL, impact = NULL)
 }
 \arguments{
-\item{chr}{Chromosome name.}
+\item{chr}{Vector of chromosome names.}
 
-\item{start}{Optional chromosomal start position. NA by default.}
+\item{start}{Optional vector of chromosomal start positions of target regions (GRCm38).}
 
-\item{end}{Optional chromosomal end position. NA by default.}
+\item{end}{Optional vector of chromosomal end positions of target regions (GRCm38).}
 
-\item{consequences}{Vector containing consequence types. NA by default.}
+\item{consequence}{Optional vector of consequence types.}
 
-\item{impacts}{Vector containing impact types. NA by default.}
+\item{impact}{Optional vector of impact types.}
 }
 \value{
 Query string.

@@ -18,6 +18,7 @@ Dataframe
 Get best strain combinations
 }
 \examples{
-r = mmusprio("chr1", start=5000000, end=6000000, strain1="C57BL_6J", strain2="AKR_J")
-get_top(r$reduction, 3)
+l = mmusprio("chr1", start=5000000, end=6000000, strain1="C57BL_6J", strain2="AKR_J")
+
+get_top(l$reduction, 3)
 }
