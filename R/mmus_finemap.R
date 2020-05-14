@@ -1,13 +1,10 @@
-# You can learn more about package authoring with RStudio at:
-#
-#   http://r-pkgs.had.co.nz/
-#
 # Some useful keyboard shortcuts for package authoring:
 #
 #   Install Package:           'Cmd + Shift + B'
 #   Check Package:             'Cmd + Shift + E'
 #   Test Package:              'Cmd + Shift + T'
 #   roxygen2::roxygenise()
+#   BiocCheck::BiocCheck(/path/to/project)
 
 
 source("R/send_request.R")
@@ -42,7 +39,7 @@ mmusfinemap = function(chr, start = NULL, end = NULL, strain1, strain2, conseque
 
 
   # Create URL and query data
-  res = lapply(1:length(chr), function(i){
+  res = lapply(seq_len(length(chr)), function(i){
     message(paste0("Query ", chr[i], if(is.numeric(start[i]) && is.numeric(end[i])) paste0(":", start[i], "-", end[i]) else ""))
     q = finemap_query(chr[i], start[i], end[i], strain1, strain2, consequence, impact, thr1, thr2)
     genehopper_request(q)
@@ -52,10 +49,10 @@ mmusfinemap = function(chr, start = NULL, end = NULL, strain1, strain2, conseque
   geno = as.data.frame(data.table::rbindlist(res))
 
 
-  # Convert to respective data types
+  # Convert to respective d ata types
   geno[geno == "-" | geno == "."] = NA
   geno[! names(geno) %in% c("rsid", "ref", "alt", "consequences")] =
-    sapply(geno[! names(geno) %in% c("rsid", "ref", "alt", "consequences")], as.numeric)
+    vapply(geno[! names(geno) %in% c("rsid", "ref", "alt", "consequences")], as.numeric, rep(numeric(1), nrow(geno)))
 
 
   # Keep only input strains

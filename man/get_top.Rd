@@ -12,7 +12,7 @@ get_top(rf, n_top)
 \item{n_top}{Number if combinations to be returned.}
 }
 \value{
-Dataframe
+Data frame
 }
 \description{
 Get best strain combinations

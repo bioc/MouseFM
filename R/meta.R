@@ -1,18 +1,16 @@
-# You can learn more about package authoring with RStudio at:
-#
-#   http://r-pkgs.had.co.nz/
-#
 # Some useful keyboard shortcuts for package authoring:
 #
 #   Install Package:           'Cmd + Shift + B'
 #   Check Package:             'Cmd + Shift + E'
 #   Test Package:              'Cmd + Shift + T'
 #   roxygen2::roxygenise()
+#   BiocCheck::BiocCheck(/path/to/project)
 
 
 #'Available strains
 #'@description There are 37 strains available.
-#'@return Vector.
+#'@return Data frame.
+#'@examples avail_strains()
 #'@export
 avail_strains = function(){
 
@@ -98,6 +96,9 @@ avail_strains = function(){
 #'Available consequences
 #'@description Available consequence and impact types.
 #'@return Data frame.
+#'@examples avail_consequences()$consequence
+#'
+#'unique(avail_consequences()$impact)
 #'@export
 avail_consequences = function(){
   df = data.frame(consequence = c("splice_acceptor_variant",
@@ -212,10 +213,11 @@ avail_consequences = function(){
 #'Available chromosomes
 #'@description Available mouse chromosomes.
 #'@return Data frame
+#'@examples avail_chromosomes()
 #'@export
 avail_chromosomes = function(){
 
-  df = data.frame(chr = 1:19,
+  df = data.frame(chr = seq_len(19),
                   min_pos = c(3000185,
                               3050115,
                               3000104,

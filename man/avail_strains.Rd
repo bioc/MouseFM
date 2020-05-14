@@ -7,8 +7,11 @@
 avail_strains()
 }
 \value{
-Vector.
+Data frame.
 }
 \description{
 There are 37 strains available.
+}
+\examples{
+avail_strains()
 }

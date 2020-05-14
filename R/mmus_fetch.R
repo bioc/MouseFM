@@ -1,13 +1,10 @@
-# You can learn more about package authoring with RStudio at:
-#
-#   http://r-pkgs.had.co.nz/
-#
 # Some useful keyboard shortcuts for package authoring:
 #
 #   Install Package:           'Cmd + Shift + B'
 #   Check Package:             'Cmd + Shift + E'
 #   Test Package:              'Cmd + Shift + T'
 #   roxygen2::roxygenise()
+#   BiocCheck::BiocCheck(/path/to/project)
 
 
 source("R/send_request.R")
@@ -30,7 +27,7 @@ mmusfetch = function(chr, start = NULL, end = NULL, consequence = NULL, impact =
 
 
   # Create URL and query data
-  res = lapply(1:length(chr), function(i){
+  res = lapply(seq_len(length(chr)), function(i){
     message(paste0("Query ", chr[i], if(is.numeric(start[i]) && is.numeric(end[i])) paste0(":", start[i], "-", end[i]) else ""))
     q = filter_query(chr[i], start[i], end[i], consequence, impact)
     genehopper_request(q)
@@ -47,7 +44,7 @@ mmusfetch = function(chr, start = NULL, end = NULL, consequence = NULL, impact =
   # Convert to respective data types
   geno[geno == "-" | geno == "."] = NA
   geno[! names(res) %in% c("rsid", "ref", "alt", "consequences")] =
-    sapply(geno[! names(geno) %in% c("rsid", "ref", "alt", "consequences")], as.numeric)
+    vapply(geno[! names(geno) %in% c("rsid", "ref", "alt", "consequences")], as.numeric, rep(numeric(1), nrow(geno)))
 
 
   if(tolower(return_obj) == "granges"){

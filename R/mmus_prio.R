@@ -1,14 +1,10 @@
-# You can learn more about package authoring with RStudio at:
-#
-#   http://r-pkgs.had.co.nz/
-#
 # Some useful keyboard shortcuts for package authoring:
 #
 #   Install Package:           'Cmd + Shift + B'
 #   Check Package:             'Cmd + Shift + E'
 #   Test Package:              'Cmd + Shift + T'
 #   roxygen2::roxygenise()
-#   https://github.com/khodaygani/Thesis
+#   BiocCheck::BiocCheck(/path/to/project)
 
 
 source("R/send_request.R")
@@ -38,7 +34,7 @@ mmusprio = function(chr, start = NULL, end = NULL, strain1, strain2, consequence
 
 
   # Create URL and query data
-  res = lapply(1:length(chr), function(i){
+  res = lapply(seq_len(length(chr)), function(i){
     message(paste0("Query ", chr[i], if(is.numeric(start[i]) && is.numeric(end[i])) paste0(":", start[i], "-", end[i]) else ""))
     q = finemap_query(chr[i], start[i], end[i], strain1, strain2, consequence, impact)
     genehopper_request(q)
@@ -51,7 +47,7 @@ mmusprio = function(chr, start = NULL, end = NULL, strain1, strain2, consequence
   # Convert to respective data types
   geno[geno == "-" | geno == "."] = NA
   geno[! names(geno) %in% c("rsid", "ref", "alt", "consequences")] =
-    sapply(geno[! names(geno) %in% c("rsid", "ref", "alt", "consequences")], as.numeric)
+    vapply(geno[! names(geno) %in% c("rsid", "ref", "alt", "consequences")], as.numeric, rep(numeric(1), nrow(geno)))
 
 
   # Add comments
@@ -65,7 +61,7 @@ mmusprio = function(chr, start = NULL, end = NULL, strain1, strain2, consequence
 
 
   rf = cbind(strain1 = rep(strain1, nrow(rf)), strain2 = rep(strain2, nrow(rf)), rf[rev(order(rf$min)),])
-  row.names(rf) <- 1:nrow(rf)
+  row.names(rf) = seq_len(nrow(rf))
 
 
   return(list(genotypes = geno, reduction = rf))
@@ -85,7 +81,7 @@ comb = function(geno, min_strain_benef = 0.1, max_set_size = 3){
   res.list = list()
   n_strains = ncol(geno)
 
-  for(i in 1:max_set_size){
+  for(i in seq_len(max_set_size)){
 
     combs = as.data.frame(gtools::combinations(ncol(geno), i, colnames(geno)))
     message(paste0(nrow(combs), " combinations for set size ", i))
@@ -137,7 +133,7 @@ reduction = function(combs, geno){
 #'@description Get best strain combinations
 #'@param rf Reduction factors data frame.
 #'@param n_top Number if combinations to be returned.
-#'@return Dataframe
+#'@return Data frame
 #'@examples l = mmusprio("chr1", start=5000000, end=6000000, strain1="C57BL_6J", strain2="AKR_J")
 #'
 #'get_top(l$reduction, 3)
@@ -145,7 +141,7 @@ reduction = function(combs, geno){
 get_top = function(rf, n_top){
 
   rf = rf[rev(order(rf$min)),]
-  top.n = rf[1:min(nrow(rf), n_top), ]
+  top.n = rf[seq_len(min(nrow(rf), n_top)), ]
 
   return(top.n)
 }
@@ -176,11 +172,11 @@ vis_reduction_factors = function(geno, rf, n_top){
   top.n = get_top(rf, n_top)
 
   geno = geno[order(geno$pos),]
-  geno$pos = 1:nrow(geno)
+  geno$pos = seq_len(nrow(geno))
 
   plots = list()
 
-  for(i in 1:nrow(top.n)){
+  for(i in seq_len(nrow(top.n))){
 
     strain.comb = unlist(strsplit(top.n$combination[i], ","))
     geno.filtered = geno[(tolower(names(geno)) %in% c("chr", "pos", tolower(c(strain1, strain2, strain.comb))))]

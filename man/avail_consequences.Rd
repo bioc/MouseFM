@@ -12,3 +12,8 @@ Data frame.
 \description{
 Available consequence and impact types.
 }
+\examples{
+avail_consequences()$consequence
+
+unique(avail_consequences()$impact)
+}

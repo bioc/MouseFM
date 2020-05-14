@@ -12,3 +12,6 @@ Data frame
 \description{
 Available mouse chromosomes.
 }
+\examples{
+avail_chromosomes()
+}

@@ -1,13 +1,10 @@
-# You can learn more about package authoring with RStudio at:
-#
-#   http://r-pkgs.had.co.nz/
-#
 # Some useful keyboard shortcuts for package authoring:
 #
 #   Install Package:           'Cmd + Shift + B'
 #   Check Package:             'Cmd + Shift + E'
 #   Test Package:              'Cmd + Shift + T'
 #   roxygen2::roxygenise()
+#   BiocCheck::BiocCheck(/path/to/project)
 
 
 #'Annotate consequences
@@ -15,10 +12,10 @@
 #'@param snps Data frame including columns rsid, ref, alt.
 #'@param species Species name, e.g. mouse (GRCm38) or human (GRCh38).
 #'@return Data frame.
-#@examples geno = mmusfinemap("chr1", start=5000000, end=6000000,
-#strain1=c("C57BL_6J"), strain2=c("AKR_J", "A_J", "BALB_cJ"))
-#
-#df = annotate_consequences(geno, "mouse")
+#'@examples geno = mmusfinemap("chr1", start=5000000, end=6000000,
+#'strain1=c("C57BL_6J"), strain2=c("AKR_J", "A_J", "BALB_cJ"))
+#'
+#'df = annotate_consequences(geno, "mouse")
 #'@export
 annotate_consequences = function(snps, species){
 
@@ -48,7 +45,7 @@ ensembl_rest_vep = function(snps, species){
   server = "https://rest.ensembl.org"
   ext = paste0("/vep/", species, "/id")
   r = httr::POST(paste(server, ext, sep = ""), httr::content_type("application/json"), httr::accept("application/json"),
-                 body = paste0('{ "ids" : ["', paste0(snps$rsid[1:200], collapse='","'), '" ] }'))
+                 body = paste0('{ "ids" : ["', paste0(snps$rsid, collapse='","'), '" ] }'))
 
 
   httr::stop_for_status(r)
@@ -58,14 +55,33 @@ ensembl_rest_vep = function(snps, species){
 
 
   # Extract consequences
-  cons.list = lapply(1:length(res$input), function(i){res$transcript_consequences[[i]]$snp = res$input[[i]]
-  res$transcript_consequences[[i]]$consequence_terms = lapply(1:length(res$transcript_consequences[[i]]$consequence_terms),
-                                                              function(j) paste0(res$transcript_consequences[[i]]$consequence_terms[[j]], collapse=","))
-  return(res$transcript_consequences[[i]])})
+  cons.list = lapply(seq_len(length(res$input)),
+                     function(i){
+                                if(!is.null(res$transcript_consequences[[i]])){
+                                    res$transcript_consequences[[i]]$snp = res$input[[i]]
+                                    res$transcript_consequences[[i]]$consequence_terms =
+                                        lapply(seq_len(length(res$transcript_consequences[[i]]$consequence_terms)),
+                                          function(j) {
+                                            paste0(res$transcript_consequences[[i]]$consequence_terms[[j]], collapse=",")
+                                          })
+                                  return(res$transcript_consequences[[i]])
+                                }
+                                else if(!is.null(res$intergenic_consequences[[i]])){
+                                    res$intergenic_consequences[[i]]$snp = res$input[[i]]
+                                    res$intergenic_consequences[[i]]$consequence_terms =
+                                      lapply(seq_len(length(res$intergenic_consequences[[i]]$consequence_terms)),
+                                             function(j) {
+                                               paste0(res$intergenic_consequences[[i]]$consequence_terms[[j]], collapse=",")
+                                             })
+                                  return(res$intergenic_consequences[[i]])
+                                }
+                                })
+
+
+  final = data.table::rbindlist(cons.list, fill=TRUE)
 
 
   # Reformat
-  final = data.table::rbindlist(cons.list, fill=TRUE)
   final[final == "NULL"] = NA
   cols = c("snp", "variant_allele", "consequence_terms", "impact", "transcript_id", "gene_id", "gene_symbol", "gene_symbol_source", "strand", "distance", "cdna_end", "cdna_start", "codons", "cds_end", "amino_acids", "protein_start", "cds_start", "protein_end", "sift_score", "sift_prediction")
   cols.missing = cols[! cols %in% colnames(final)]
