@@ -52,7 +52,7 @@ avail_strains = function(){
                          "SPRET_EiJ",
                          "ST_bJ",
                          "WSB_EiJ",
-                         "ZALENDE_Ei"),
+                         "ZALENDE_EiJ"),
                   strain = c("129P2/OlaHsd",
                              "129S1/SvImJ",
                              "129S5/SvEvBrd",
