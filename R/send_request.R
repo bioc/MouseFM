@@ -13,77 +13,73 @@
 #'@param method HTTP method to use
 #'@return Data frame.
 #'@keywords internal
-genehopper_request = function(q, n.tries=2, method="GET"){
+genehopper_request = function(q, n.tries = 2, method = "GET") {
+    stopifnot(is.numeric(n.tries))
+    stopifnot(method == "GET" || method == "POST")
+    stopifnot(nchar(q) > 0)
 
 
-  stopifnot(is.numeric(n.tries))
-  stopifnot(method == "GET" || method == "POST")
-  stopifnot(nchar(q) > 0)
+    # Check if there is an internet connection
+    if (!curl::has_internet())
+        stop("No internet connection detected...")
 
 
-  # Check if there is an internet connection
-  if (!curl::has_internet())
-    stop("No internet connection detected...")
+    # Send HTTP request and retrieve response
+    while (n.tries > 0) {
+        if (method == "GET") {
+            response = httr::GET(q)
+        }
+        else if (method == "POST") {
+            response = httr::POST(q)
+        }
 
+        if (!httr::http_error(response)) {
+            break
+        }
 
-  # Send HTTP request and retrieve response
-  while(n.tries > 0){
-
-    if(method == "GET"){
-      response = httr::GET(q)
+        Sys.sleep(3)
+        n.tries = n.tries - 1
     }
-    else if(method == "POST"){
-      response = httr::POST(q)
+
+
+    if (n.tries == 0) {
+        stop("Web server seems to be down. Try again later!")
     }
 
-    if(!httr::http_error(response)){
-      break
+
+    result = httr::content(response)
+    result = unlist(strsplit(result , "\n"))
+
+
+    # Display error message from server
+    if (length(grep("^#", result)) == 0) {
+        warning(result)
+        return()
     }
 
-    Sys.sleep(3)
-    n.tries = n.tries-1
-  }
+
+    # Extract
+    meta = grep("^#", result, value = TRUE)
+    data = grep("^[^#]", result, value = TRUE)
 
 
-  if(n.tries == 0){
-    stop("Web server seems to be down. Try again later!")
-  }
+    # If no results found
+    if (length(data) - 1 <= 0) {
+        message("No results found")
+        return()
+    }
 
 
-  result = httr::content(response)
-  result = unlist(strsplit(result , "\n"))
+    # Convert to dataframe
+    header = unlist(strsplit(data[1], "\t"))
+    ncols = length(header)
+    data = unlist(strsplit(data[-1], "\t"))
+
+    m = matrix(data, ncol = ncols, byrow = TRUE)
+    d = as.data.frame(m, stringsAsFactors = FALSE)
+    colnames(d) = header
+    comment(d) = meta
 
 
-  # Display error message from server
-  if(length(grep("^#", result)) == 0){
-    warning(result)
-    return()
-  }
-
-
-  # Extract
-  meta = grep("^#", result, value = TRUE)
-  data = grep("^[^#]", result, value = TRUE)
-
-
-  # If no results found
-  if(length(data)-1 <= 0) {
-    message("No results found")
-    return()
-  }
-
-
-  # Convert to dataframe
-  header = unlist(strsplit(data[1], "\t"))
-  ncols = length(header)
-  data = unlist(strsplit(data[-1], "\t"))
-
-  m = matrix(data, ncol=ncols, byrow=TRUE)
-  d = as.data.frame(m, stringsAsFactors=FALSE)
-  colnames(d) = header
-  comment(d) = meta
-
-
-  return(d)
+    return(d)
 }
-

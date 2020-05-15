@@ -3,8 +3,7 @@ Type: Package
 Title: What the Package Does (Title Case)
 Version: 0.1.0
 Authors@R: c(person("Matthias", "Munz", role = c("aut", "cre"), 
-                email = "m.munz@uni-luebeck.de")
-             )
+    email = "m.munz@uni-luebeck.de"))
 Description: More about what it does (maybe more than one line)
     Use four spaces when indenting paragraphs within the Description.
 Encoding: UTF-8
@@ -13,13 +12,25 @@ BugReports: https://github.com/matmu/mmus/issues
 Depends: R (>= 4.0.0)
 License: GPL-3
 VignetteBuilder: knitr
-biocViews: SNP, Genetics, VariantAnnotation
+biocViews: 
+    Genetics, 
+    SNP, 
+    GeneTarget, 
+    VariantAnnotation, 
+    GenomicVariation, 
+    MultipleComparison, 
+    SystemsBiology, 
+    MathematicalBiology, 
+    PatternLogic,
+    GenePrediction,
+    BiomedicalInformatics,
+    FunctionalGenomics
 Suggests:
+    BiocStyle,
     testthat,
     knitr,
     rmarkdown
 Imports:
-    BiocStyle,
     httr,
     curl,
     GenomicRanges,
@@ -30,5 +41,6 @@ Imports:
     gtools,
     tidyr,
     data.table,
-    jsonlite
+    jsonlite,
+    rlist
 RoxygenNote: 7.1.0
