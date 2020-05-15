@@ -14,7 +14,10 @@
 
 
 ## Introduction
-This **R** package provides 
+This **R** package provides methods for **finemapping of inbred mice* by taking advantage of their **very high homozygosity rate** (>95% ). For one ore more chromosomal regions (GRCm38), the method "" extracts homozygous SNPs for which the allele differs between two sets of strains (e.g. case vs controls) and respective causal SNP/gene candidates.
+
+Method "" allows to select additional strains which best resolve a QTL found by a crossing experiment of two inbred mouse strains. These additional strains can then be used to refine the QTL in further crossing experiments.
+
 
 ## Installation
 ```R
