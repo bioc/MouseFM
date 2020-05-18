@@ -2,14 +2,14 @@
 % Please edit documentation in R/prio.R
 \name{get_top}
 \alias{get_top}
-\title{Best combinations}
+\title{Best strain combinations}
 \usage{
 get_top(rf, n_top)
 }
 \arguments{
 \item{rf}{Reduction factors data frame.}
 
-\item{n_top}{Number if combinations to be returned.}
+\item{n_top}{Number of combinations to be returned.}
 }
 \value{
 Data frame

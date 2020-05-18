@@ -192,10 +192,10 @@ reduction = function(combs, geno) {
 }
 
 
-#'Best combinations
+#'Best strain combinations
 #'@description Get best strain combinations
 #'@param rf Reduction factors data frame.
-#'@param n_top Number if combinations to be returned.
+#'@param n_top Number of combinations to be returned.
 #'@return Data frame
 #'@examples l = prio("chr1", start=5000000, end=6000000, strain1="C57BL_6J", strain2="AKR_J")
 #'
