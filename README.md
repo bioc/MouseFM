@@ -22,8 +22,21 @@ Method `prio` allows to **select additional strains** which best resolve a speci
 
 
 ## Available inbred strains
-
-
+| No | Strain             | No | Strain    | No | Strain      |
+|----|--------------------|----|-----------|----|-------------|
+| 1  | 129P2/OlaHsd       | 14 | C57BR/cdJ | 26 | MOLF/EiJ    |
+| 2  | 129S1/SvImJ        | 15 | C57L/J    | 27 | NOD/ShiLtJ  |
+| 3  | 129S5/SvEvBrd      | 16 | C58/J     | 28 | NZB/B1NJ    |
+| 4  | A/J                | 17 | CAST/EiJ  | 29 | NZO/HlLtJ   |
+| 5  | AKR/J              | 18 | CBA/J     | 30 | NZW/LacJ    |
+| 6  | BALB/cJ            | 19 | DBA/1J    | 31 | PWK/PhJ     |
+| 7  | BTBR T + Itpr3tf/J | 20 | DBA/2J    | 32 | RF/J        |
+| 8  | BUB/BnJ            | 21 | FVB/NJ    | 33 | SEA/GnJ     |
+| 9  | C3H/HeH            | 22 | I/LnJ     | 34 | SPRET/EiJ   |
+| 10 | C3H/HeJ            | 23 | KK/HiJ    | 35 | ST/bJ       |
+| 11 | C57BL/10J          | 24 | LEWES/EiJ | 36 | WSB/EiJ     |
+| 12 | C57BL/6            | 25 | LP/J      | 37 | ZALENDE/EiJ |
+| 13 | C57BL/6NJ          |    |           |    |             |
 
 ## Installation
 ```R
@@ -41,17 +54,6 @@ help(package="MouseFM")
 ## Loading package
 ```{r}
 library(MouseFM)
-```
-
-## Usage
-
-
-### Meta information
-Column descriptions of the received data frame can be accessed by calling:
-
-```R
-df = 
-comment(df)
 ```
 
 ## Try out online
