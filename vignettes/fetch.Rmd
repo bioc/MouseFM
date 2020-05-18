@@ -1,9 +1,9 @@
 ---
-title: "Prioritization of inbred mouse strains for resolving genetic regions"
+title: "Fetch homozygous genotypes of inbred mouse strains"
 output: BiocStyle::html_document
 author: "Matthias Munz"
 vignette: >
-    %\VignetteIndexEntry{Prioritization}
+    %\VignetteIndexEntry{Fetch}
     %\VignetteEngine{knitr::rmarkdown}
     %\VignetteEncoding{UTF-8}
 ---
@@ -19,7 +19,7 @@ knitr::opts_chunk$set(
 # Introduction
 This **R** package provides methods for **genetic finemapping** in **inbred mice** by taking advantage of their **very high homozygosity rate** (>95%).
 
-Method `prio` allows to select additional strains which best resolve a specified genetic region, e.g. QTL found by a crossing experiment of two inbred mouse strains. The selected additional strains can then be used to refine the region in further crossing experiments.
+Method `fetch` allows to download homozygous genotypes of 37 inbred mouse strains for a given genetic region.
 
 # Installation
 ```{r setup, eval=FALSE}
@@ -28,7 +28,7 @@ if(!requireNamespace("BiocManager", quietly = TRUE))
 BiocManager::install("MouseFM")
 ```
 
-or 
+or
 
 ```{r eval=FALSE}
 devtools::install_github('matmu/MouseFM', build_vignettes = TRUE)
@@ -40,14 +40,11 @@ library(MouseFM)
 ```
 
 # Example function calls
-Available mouse strains
+Prioritize genotypes for region chr1:5000000-6000000.
 ```{r}
-avail_strains()
-```
+df = fetch("chr1", start=5000000, end=6000000)
 
-Prioritize additional mouse strains for a given region which was identified in a crossing experiment with strain1 C57BL_6J and strain2 AKR_J.
-```{r}
-df = prio("chr1", start=5000000, end=6000000, strain1="C57BL_6J", strain2="AKR_J")
+df[1:10,]
 ```
 
 View meta information
@@ -55,21 +52,10 @@ View meta information
 comment(df)
 ```
 
-Extract the combinations with the best refinement
-```{r}
-get_top(df$reduction, n_top=3)
-```
-
-Create plots
-```{r}
-plots = vis_reduction_factors(df$genotypes, df$reduction, 2)
-plots[[1]]
-plots[[2]]
-```
 
 # Output of Session Info
 The output of ```sessionInfo()``` on the system
 on which this document was compiled:
-```{r}
+    ```{r}
 sessionInfo()
 ```

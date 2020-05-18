@@ -41,6 +41,11 @@ library(MouseFM)
 ```
 
 # Example function calls
+Available mouse strains
+```{r}
+avail_strains()
+```
+
 Call finemap to finemap a specific region
 ```{r}
 res = finemap(chr="chr7",
@@ -49,6 +54,11 @@ res = finemap(chr="chr7",
               impact=c("HIGH", "MODERATE", "LOW"))
 
 res[1:10,]
+```
+
+View meta information
+```{r}
+comment(res)
 ```
 
 Annotate consequences and genes
