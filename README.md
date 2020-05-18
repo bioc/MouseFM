@@ -2,14 +2,10 @@
 [![Twitter](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/intent/tweet?hashtags=asd&url=https://www.biorxiv.org/content/...)
 
 &nbsp;+ [Introduction](#Introduction)\
+&nbsp;+ [Available inbred strains](#Available-inbred-strains)\
 &nbsp;+ [Installation](#Installation)\
-&nbsp;+ [Usage](#Usage)\
-&nbsp;&nbsp;&nbsp;&nbsp;|-- [Accepted query terms](#Accepted-query-terms)\
-&nbsp;&nbsp;&nbsp;&nbsp;|-- [Optional parameters](#Optional-parameters)\
-&nbsp;&nbsp;&nbsp;&nbsp;|-- [Meta information](#Meta-information)\
-&nbsp;+ [Try out online](#Try-out-online)\
+&nbsp;+ [Help pages](#Help-pages)\
 &nbsp;+ [Authors](#Authors)\
-&nbsp;+ [Citation](#Citation)\
 &nbsp;+ [License](#License)
 
 
@@ -62,13 +58,6 @@ To see the help pages for each specific funtion:
 ```R
 help(package="MouseFM")
 ```
-
-## Try out online
-If you want to try out the R package online, there is an example **Google Colaboratory** project at
-
-https://colab.research.google.com/drive/1i1sjQHCjaw2wYzVBnXQ9iaghnk-jSU95#scrollTo=5Hi6sCe7SPFb
-
-To run the project, make a private copy or open the project in playground mode and sign in to Google. 
 
 
 ## Authors
