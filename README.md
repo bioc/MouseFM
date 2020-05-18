@@ -1,4 +1,4 @@
-# MosueFM: In-silico methods for finemapping of genetic regions in inbred mice.
+# MosueFM: In-silico methods for finemapping of genetic regions in inbred mice
 [![Twitter](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/intent/tweet?hashtags=asd&url=https://www.biorxiv.org/content/...)
 
 &nbsp;+ [Introduction](#Introduction)\
@@ -19,22 +19,25 @@ This **R** package provides methods for **finemapping of inbred mice* by taking 
 Method "" allows to select additional strains which best resolve a QTL found by a crossing experiment of two inbred mouse strains. These additional strains can then be used to refine the QTL in further crossing experiments.
 
 
+## Available strains
+
+
 ## Installation
 ```R
-devtools::install_github('matmu/mmus', build_vignettes = TRUE)
+devtools::install_github('matmu/MouseFM', build_vignettes = TRUE)
 ```
 
 **Please note**: A valid internet connection (HTTP port: 80) is required in order to install and use the package.
 
 ## Help pages
 ```R
-browseVignettes("mmus")
-help(package="mmus")
+browseVignettes("MouseFM")
+help(package="MouseFM")
 ```
 
 ## Loading package
 ```{r}
-library(mmus)
+library(MouseFM)
 ```
 
 ## Usage
@@ -67,5 +70,3 @@ Please cite the following article when using our tool:
 
 ## License
 GNU General Public License v3.0
-
-
