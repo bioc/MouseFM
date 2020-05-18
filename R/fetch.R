@@ -11,8 +11,8 @@ source("R/send_request.R")
 source("R/make_query.R")
 
 
-#'MMUS Fetch
-#'@description Detch genetic variant data for chromosomal region
+#'Fetch
+#'@description Fetch homozygous genotypes for a specified chromosomal region in 37 inbred mouse strains.
 #'@param chr Vector of chromosome names.
 #'@param start Optional vector of chromosomal start positions of target regions (GRCm38).
 #'@param end Optional vector of chromosomal end positions of target regions (GRCm38).
@@ -21,21 +21,21 @@ source("R/make_query.R")
 #'@param return_obj The user can choose to get the result to be returned
 #'as data frame ("dataframe") or as a GenomicRanges::GRanges ("granges") object. Default value is "dataframe".
 #'@return Data frame or GenomicRanges::GRanges object containing result data.
-#'@examples geno = mmusfetch("chr7", start=5000000, end=6000000)
+#'@examples geno = fetch("chr7", start=5000000, end=6000000)
 #'
 #'comment(geno)
 #'@export
-mmusfetch = function(chr,
-                     start = NULL,
-                     end = NULL,
-                     consequence = NULL,
-                     impact = NULL,
-                     return_obj = "dataframe") {
+fetch = function(chr,
+                 start = NULL,
+                 end = NULL,
+                 consequence = NULL,
+                 impact = NULL,
+                 return_obj = "dataframe") {
     # Create URL and query data
     res = lapply(seq_len(length(chr)), function(i) {
         message(paste0("Query ", chr[i], if (is.numeric(start[i]) &&
                                              is.numeric(end[i]))
-            paste0(":", start[i], "-", end[i])
+            paste0(":", scales::comma(start[i]), "-", scales::comma(end[i]))
             else
                 ""))
         q = filter_query(chr[i], start[i], end[i], consequence, impact)
@@ -57,8 +57,8 @@ mmusfetch = function(chr,
                as.numeric, rep(numeric(1), nrow(geno)))
 
 
+    # Create GRanges container
     if (tolower(return_obj) == "granges") {
-        # Create GRanges container
         gres = GenomicRanges::makeGRangesFromDataFrame(
             geno,
             start.field = "pos",
@@ -68,6 +68,7 @@ mmusfetch = function(chr,
         )
 
         GenomicRanges::strand(gres) = "+"
+        GenomeInfoDb::genome(gres) = ref_genome()
         comment(gres) = comment(geno)
 
         return(gres)

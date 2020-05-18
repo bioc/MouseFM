@@ -11,8 +11,11 @@ source("R/send_request.R")
 source("R/make_query.R")
 
 
-#'MMUS Prio
-#'@description Prioritize mouse strains
+#'Prioritization of inbred mouse strains for refining genetic regions
+#'@description This method allows to select additional strains which
+#'best resolve a specified genetic region (GRCm38), e.g. QTL found by a crossing
+#'experiment of two inbred mouse strains. The selected additional strains can
+#'then be used to refine the region in further crossing experiments.
 #'@param chr Vector of chromosome names.
 #'@param start Optional vector of chromosomal start positions of target regions (GRCm38).
 #'@param end Optional vector of chromosomal end positions of target regions (GRCm38).
@@ -23,11 +26,11 @@ source("R/make_query.R")
 #'@param max_set_size Maximum set of strains.
 #'@param min_strain_benef Minimum reduction factor (min) of a single strain.
 #'@return Dataframe
-#'@examples res = mmusprio("chr1", start=5000000, end=6000000, strain1="C57BL_6J", strain2="AKR_J")
+#'@examples res = prio("chr1", start=5000000, end=6000000, strain1="C57BL_6J", strain2="AKR_J")
 #'
 #'comment(res$genotypes)
 #'@export
-mmusprio = function(chr,
+prio = function(chr,
                     start = NULL,
                     end = NULL,
                     strain1,
@@ -48,7 +51,7 @@ mmusprio = function(chr,
     res = lapply(seq_len(length(chr)), function(i) {
         message(paste0("Query ", chr[i], if (is.numeric(start[i]) &&
                                              is.numeric(end[i]))
-            paste0(":", start[i], "-", end[i])
+            paste0(":", scales::comma(start[i]), "-", scales::comma(end[i]))
             else
                 ""))
         q = finemap_query(chr[i],
@@ -91,7 +94,6 @@ mmusprio = function(chr,
     )]
 
     rf = comb(geno.add_strains, min_strain_benef, max_set_size)
-
 
 
     rf = cbind(strain1 = rep(strain1, nrow(rf)),
@@ -177,7 +179,7 @@ reduction = function(combs, geno) {
 #'@param rf Reduction factors data frame.
 #'@param n_top Number if combinations to be returned.
 #'@return Data frame
-#'@examples l = mmusprio("chr1", start=5000000, end=6000000, strain1="C57BL_6J", strain2="AKR_J")
+#'@examples l = prio("chr1", start=5000000, end=6000000, strain1="C57BL_6J", strain2="AKR_J")
 #'
 #'get_top(l$reduction, 3)
 #'@export
@@ -195,7 +197,7 @@ get_top = function(rf, n_top) {
 #'@param rf Reduction factor data frame.
 #'@param n_top Number if combinations to be returned.
 #'@return Dataframe
-#'@examples l = mmusprio(c("chr1", "chr2"), start=c(5000000, 5000000), end=c(6000000, 6000000), strain1="C3H_HeH", strain2="AKR_J")
+#'@examples l = prio(c("chr1", "chr2"), start=c(5000000, 5000000), end=c(6000000, 6000000), strain1="C3H_HeH", strain2="AKR_J")
 #'
 #'plots = vis_reduction_factors(l$genotypes, l$reduction, 2)
 #'

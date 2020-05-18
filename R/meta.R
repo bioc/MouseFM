@@ -7,6 +7,16 @@
 #   BiocCheck::BiocCheck(/path/to/project)
 
 
+#'Reference genome version
+#'@description Returns version of reference genome used in package MouseFM.
+#'@return Vector.
+#'@examples ref_genome()
+#'@export
+ref_genome = function() {
+    return("GRCm38")
+}
+
+
 #'Available strains
 #'@description There are 37 strains available.
 #'@return Data frame.

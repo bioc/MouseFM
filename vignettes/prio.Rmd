@@ -1,5 +1,5 @@
 ---
-title: "MMUS Prio"
+title: "Prioritization of inbred mouse strains for refining genetic regions"
 output: BiocStyle::html_document
 author: "Matthias Munz"
 vignette: >
@@ -17,30 +17,32 @@ knitr::opts_chunk$set(
 ```
 
 # Introduction
-This **R** package provides an in-silico method for prioritizing additional strains for finemappingwith respect to a specific region.
+This **R** package provides methods for **genetic finemapping** in **inbred mice** by taking advantage of their **very high homozygosity rate** (>95%).
+
+Method `prio` allows to select additional strains which best resolve a specified genetic region, e.g. QTL found by a crossing experiment of two inbred mouse strains. The selected additional strains can then be used to refine the region in further crossing experiments.
 
 # Installation
 ```{r setup, eval=FALSE}
 if(!requireNamespace("BiocManager", quietly = TRUE))
     install.packages("BiocManager")
-BiocManager::install("mmus")
+BiocManager::install("MouseFM")
 ```
 
 or 
 
 ```{r eval=FALSE}
-devtools::install_github('matmu/mmus', build_vignettes = TRUE)
+devtools::install_github('matmu/MouseFM', build_vignettes = TRUE)
 ```
 
 # Loading package
 ```{r}
-library(mmus)
+library(MouseFM)
 ```
 
 # Example function calls
 ```{r}
-# Call mmusprio to prioritize additional mouse strains for a given region
-df = mmusprio("chr1", start=5000000, end=6000000, strain1="C57BL_6J", strain2="AKR_J")
+# Call prio to prioritize additional mouse strains for a given region
+df = prio("chr1", start=5000000, end=6000000, strain1="C57BL_6J", strain2="AKR_J")
 
 
 # Check top combinations

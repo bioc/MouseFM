@@ -2,7 +2,8 @@
 % Please edit documentation in R/annotation.R
 \name{ensembl_rest_vep}
 \alias{ensembl_rest_vep}
-\title{Request variant consequences from Variant Effect Predictor (VEP) via Ensembl Rest Service}
+\title{Request variant consequences from Variant Effect Predictor (VEP)
+via Ensembl Rest Service}
 \usage{
 ensembl_rest_vep(snps, species)
 }
@@ -15,6 +16,7 @@ ensembl_rest_vep(snps, species)
 Data frame.
 }
 \description{
-Request variant consequences from Variant Effect Predictor (VEP) via Ensembl Rest Service
+Request variant consequences from Variant Effect Predictor (VEP)
+via Ensembl Rest Service
 }
 \keyword{internal}
