@@ -4,10 +4,10 @@
 \alias{annotate_consequences}
 \title{Annotate consequences}
 \usage{
-annotate_consequences(snps, species)
+annotate_consequences(geno, species)
 }
 \arguments{
-\item{snps}{Data frame including columns rsid, ref, alt.}
+\item{geno}{Data frame or GenomicRanges::GRanges object including columns rsid, ref, alt.}
 
 \item{species}{Species name, e.g. mouse (GRCm38) or human (GRCh38).}
 }
@@ -23,4 +23,9 @@ geno = finemap("chr1", start=5000000, end=6000000,
 strain1=c("C57BL_6J"), strain2=c("AKR_J", "A_J", "BALB_cJ"))
 
 df = annotate_consequences(geno[seq_len(10),], "mouse")
+
+geno.granges = finemap("chr1", start=5000000, end=6000000,
+strain1=c("C57BL_6J"), strain2=c("AKR_J", "A_J", "BALB_cJ"), return_obj="granges")
+
+df2 = annotate_consequences(geno.granges[seq_len(10),], "mouse")
 }

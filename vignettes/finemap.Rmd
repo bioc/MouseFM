@@ -44,9 +44,9 @@ library(MouseFM)
 Call finemap to finemap a specific region
 ```{r}
 res = finemap(chr="chr7",
-                  strain1=c("C57BL_6J","C57L_J","CBA_J","NZB_B1NJ"),
-                  strain2=c("C3H_HEJ","MOLF_EiJ","NZW_LacJ","WSB_EiJ","SPRET_EiJ"),
-                  impact=c("HIGH", "MODERATE", "LOW"))
+              strain1=c("C57BL_6J","C57L_J","CBA_J","NZB_B1NJ"),
+              strain2=c("C3H_HEJ","MOLF_EiJ","NZW_LacJ","WSB_EiJ","SPRET_EiJ"),
+              impact=c("HIGH", "MODERATE", "LOW"))
 
 res[1:10,]
 ```

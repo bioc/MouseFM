@@ -5,10 +5,10 @@
 \title{Request variant consequences from Variant Effect Predictor (VEP)
 via Ensembl Rest Service}
 \usage{
-ensembl_rest_vep(snps, species)
+ensembl_rest_vep(geno, species)
 }
 \arguments{
-\item{snps}{Data frame including columns rsid, ref, alt.}
+\item{geno}{Data frame including columns rsid, ref, alt.}
 
 \item{species}{Species name, e.g. mouse or human.}
 }

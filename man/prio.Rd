@@ -13,7 +13,8 @@ prio(
   consequence = NULL,
   impact = NULL,
   min_strain_benef = 0.1,
-  max_set_size = 3
+  max_set_size = 3,
+  return_obj = "dataframe"
 )
 }
 \arguments{
@@ -34,6 +35,9 @@ prio(
 \item{min_strain_benef}{Minimum reduction factor (min) of a single strain.}
 
 \item{max_set_size}{Maximum set of strains.}
+
+\item{return_obj}{The user can choose to get the result to be returned
+as data frame ("dataframe") or as a GenomicRanges::GRanges ("granges") object. Default value is "dataframe".}
 }
 \value{
 Dataframe
@@ -45,7 +49,8 @@ experiment of two inbred mouse strains. The selected additional strains can
 then be used to refine the region in further crossing experiments.
 }
 \examples{
-res = prio("chr1", start=5000000, end=6000000, strain1="C57BL_6J", strain2="AKR_J")
+res = prio("chr1", start=5000000, end=6000000, strain1="C57BL_6J",
+strain2="AKR_J")
 
 comment(res$genotypes)
 }

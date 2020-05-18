@@ -9,6 +9,7 @@
 
 source("R/send_request.R")
 source("R/make_query.R")
+source("R/granges_conversion.R")
 
 
 #'Prioritization of inbred mouse strains for refining genetic regions
@@ -25,8 +26,11 @@ source("R/make_query.R")
 #'@param impact Optional vector of impact types.
 #'@param max_set_size Maximum set of strains.
 #'@param min_strain_benef Minimum reduction factor (min) of a single strain.
+#'@param return_obj The user can choose to get the result to be returned
+#'as data frame ("dataframe") or as a GenomicRanges::GRanges ("granges") object. Default value is "dataframe".
 #'@return Dataframe
-#'@examples res = prio("chr1", start=5000000, end=6000000, strain1="C57BL_6J", strain2="AKR_J")
+#'@examples res = prio("chr1", start=5000000, end=6000000, strain1="C57BL_6J",
+#'strain2="AKR_J")
 #'
 #'comment(res$genotypes)
 #'@export
@@ -38,7 +42,8 @@ prio = function(chr,
                     consequence = NULL,
                     impact = NULL,
                     min_strain_benef = 0.1,
-                    max_set_size = 3) {
+                    max_set_size = 3,
+                    return_obj = "dataframe") {
     stopifnot(
         is.vector(strain1),
         is.vector(strain2),
@@ -68,6 +73,10 @@ prio = function(chr,
     geno = as.data.frame(data.table::rbindlist(res))
 
 
+    # Return if no results
+    if(nrow(geno) == 0) return(list())
+
+
     # Convert to respective data types
     geno[geno == "-" | geno == "."] = NA
     geno[!names(geno) %in% c("rsid", "ref", "alt", "consequences")] =
@@ -78,8 +87,7 @@ prio = function(chr,
     comment(geno) = comment(res[[1]])
 
 
-    # Calculate reduction factors
-    message("Calculate reduction factors...")
+    # Extract additional strains
     geno.add_strains = geno[!(
         tolower(names(geno)) %in% c(
             "chr",
@@ -93,13 +101,23 @@ prio = function(chr,
         )
     )]
 
+
+    # Calculate reduction factors
+    message("Calculate reduction factors...")
     rf = comb(geno.add_strains, min_strain_benef, max_set_size)
 
 
+    # Create final reduction factor data frame
     rf = cbind(strain1 = rep(strain1, nrow(rf)),
                strain2 = rep(strain2, nrow(rf)),
                rf[rev(order(rf$min)),])
     row.names(rf) = seq_len(nrow(rf))
+
+
+    # Create GRanges container
+    if (tolower(return_obj) == "granges") {
+        geno = df2GRanges(geno)
+    }
 
 
     return(list(genotypes = geno, reduction = rf))
@@ -197,7 +215,8 @@ get_top = function(rf, n_top) {
 #'@param rf Reduction factor data frame.
 #'@param n_top Number if combinations to be returned.
 #'@return Dataframe
-#'@examples l = prio(c("chr1", "chr2"), start=c(5000000, 5000000), end=c(6000000, 6000000), strain1="C3H_HeH", strain2="AKR_J")
+#'@examples l = prio(c("chr1", "chr2"), start=c(5000000, 5000000),
+#'end=c(6000000, 6000000), strain1="C3H_HeH", strain2="AKR_J")
 #'
 #'plots = vis_reduction_factors(l$genotypes, l$reduction, 2)
 #'
@@ -221,7 +240,7 @@ vis_reduction_factors = function(geno, rf, n_top) {
 
     # Replace 0/1 by strain1/strain2 name
     geno.mod = lapply(other_strains, function(s){
-            sapply(seq_len(nrow(geno)), function(i)if(geno[i,strain1] == geno[i,s]) strain1 else strain2)
+            vapply(seq_len(nrow(geno)), function(i)if(geno[i,strain1] == geno[i,s]) strain1 else strain2, character(1))
         })
 
 

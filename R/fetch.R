@@ -9,6 +9,7 @@
 
 source("R/send_request.R")
 source("R/make_query.R")
+source("R/granges_conversion.R")
 
 
 #'Fetch
@@ -46,6 +47,10 @@ fetch = function(chr,
     geno = as.data.frame(data.table::rbindlist(res))
 
 
+    # Return if no results
+    if(nrow(geno) == 0) return(geno)
+
+
     # Add comments
     comment(geno) = comment(res[[1]])
 
@@ -59,19 +64,7 @@ fetch = function(chr,
 
     # Create GRanges container
     if (tolower(return_obj) == "granges") {
-        gres = GenomicRanges::makeGRangesFromDataFrame(
-            geno,
-            start.field = "pos",
-            end.field = "pos",
-            seqnames.field = "chr",
-            keep.extra.columns = TRUE
-        )
-
-        GenomicRanges::strand(gres) = "+"
-        GenomeInfoDb::genome(gres) = ref_genome()
-        comment(gres) = comment(geno)
-
-        return(gres)
+        return(df2GRanges(geno))
 
     } else {
         return(geno)
