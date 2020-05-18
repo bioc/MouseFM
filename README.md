@@ -26,7 +26,7 @@ Method `prio` allows to **select additional strains** which best resolve a speci
 | 4  | A/J                | 17 | CAST/EiJ  | 29 | NZO/HlLtJ   |
 | 5  | AKR/J              | 18 | CBA/J     | 30 | NZW/LacJ    |
 | 6  | BALB/cJ            | 19 | DBA/1J    | 31 | PWK/PhJ     |
-| 7  | BTBR T + Itpr3tf/J | 20 | DBA/2J    | 32 | RF/J        |
+| 7  | BTBR               | 20 | DBA/2J    | 32 | RF/J        |
 | 8  | BUB/BnJ            | 21 | FVB/NJ    | 33 | SEA/GnJ     |
 | 9  | C3H/HeH            | 22 | I/LnJ     | 34 | SPRET/EiJ   |
 | 10 | C3H/HeJ            | 23 | KK/HiJ    | 35 | ST/bJ       |
