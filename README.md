@@ -38,22 +38,29 @@ Method `prio` allows to **select additional strains** which best resolve a speci
 | 12 | C57BL/6            | 25 | LP/J      | 37 | ZALENDE/EiJ |
 | 13 | C57BL/6NJ          |    |           |    |             |
 
+
 ## Installation
 ```R
 devtools::install_github('matmu/MouseFM', build_vignettes = TRUE)
 ```
 
-**Please note**: A valid internet connection (HTTP port: 80) is required in order to install and use the package.
-
-## Help pages
-```R
-browseVignettes("MouseFM")
-help(package="MouseFM")
-```
-
-## Loading package
+Loading package
 ```{r}
 library(MouseFM)
+```
+
+**Please note**: A valid internet connection (HTTP port: 80) is required in order to install and use the package.
+
+
+## Help pages
+Multiple vignettes exist that guide you through general functionality of **MouseFM**.
+```R
+browseVignettes("MouseFM")
+```
+
+To see the help pages for each specific funtion:
+```R
+help(package="MouseFM")
 ```
 
 ## Try out online
@@ -67,10 +74,6 @@ To run the project, make a private copy or open the project in playground mode a
 ## Authors
 Matthias Munz [![](https://img.shields.io/twitter/follow/_MatthiasMunz?label=Follow&style=social)](https://img.shields.io/twitter/follow/_MatthiasMunz?label=Follow&style=social)\
 University of Lübeck, Germany
-
-
-## Citation
-Please cite the following article when using our tool:
 
 
 ## License
