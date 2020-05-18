@@ -1,4 +1,4 @@
-# In-silico methods for strain prioritization and finemapping of genetic regions in mice.
+# MosueFM: In-silico methods for finemapping of genetic regions in inbred mice.
 [![Twitter](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/intent/tweet?hashtags=asd&url=https://www.biorxiv.org/content/...)
 
 &nbsp;+ [Introduction](#Introduction)\
