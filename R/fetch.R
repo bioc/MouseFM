@@ -34,11 +34,15 @@ fetch = function(chr,
                  return_obj = "dataframe") {
     # Create URL and query data
     res = lapply(seq_len(length(chr)), function(i) {
-        message(paste0("Query ", chr[i], if (is.numeric(start[i]) &&
-                                             is.numeric(end[i]))
-            paste0(":", scales::comma(start[i]), "-", scales::comma(end[i]))
+        message(paste0(
+            "Query ",
+            chr[i],
+            if (is.numeric(start[i]) &&
+                is.numeric(end[i]))
+                paste0(":", scales::comma(start[i]), "-", scales::comma(end[i]))
             else
-                ""))
+                ""
+        ))
         q = filter_query(chr[i], start[i], end[i], consequence, impact)
         genehopper_request(q)
     })
@@ -48,7 +52,8 @@ fetch = function(chr,
 
 
     # Return if no results
-    if(nrow(geno) == 0) return(geno)
+    if (nrow(geno) == 0)
+        return(geno)
 
 
     # Add comments
@@ -64,8 +69,10 @@ fetch = function(chr,
 
     # Create GRanges container
     if (tolower(return_obj) == "granges") {
-        return(df2GRanges(geno))
-
+        geno$strand = "+"
+        seq_lengths = stats::setNames(as.list(avail_chromosomes()$length),
+                               avail_chromosomes()$chr)
+        return(df2GRanges(geno, strand_name = "strand", seq_lengths = seq_lengths))
     } else {
         return(geno)
     }

@@ -2,6 +2,7 @@
 
 export(GRanges2df)
 export(annotate_consequences)
+export(annotate_mouse_genes)
 export(avail_chromosomes)
 export(avail_consequences)
 export(avail_strains)

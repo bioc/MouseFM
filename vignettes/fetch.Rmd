@@ -40,7 +40,7 @@ library(MouseFM)
 ```
 
 # Example function calls
-Prioritize genotypes for region chr1:5000000-6000000.
+Fetch genotypes for region chr1:5000000-6000000.
 ```{r}
 df = fetch("chr1", start=5000000, end=6000000)
 

@@ -12,7 +12,7 @@ test_that("Package works properly", {
                       strain2="AKR_J")), 0)
 
     expect_equal(length(prio("chr1", start=5000000, end=6000000, strain1="C57BL_6J",
-                             strain2="AKR_J", return_obj="granges")$geno), 802)
+                             strain2="AKR_J", return_obj="granges")), 802)
 
     expect_equal(length(prio("chr1", start=5000000, end=5001000, strain1="C57BL_6J",
                            strain2="AKR_J", return_obj="granges")$geno), 0)

@@ -9,24 +9,30 @@
 
 #'Data frame to GenomicRanges::GRanges object
 #'@description Wrapper for GenomicRanges::makeGRangesFromDataFrame().
-#'@param geno Data frame
-#'@param chr_name Name of chromosome column. Default is 'chr'
-#'@param start_name Name of start position column. Default is 'pos'
+#'@param geno Data frame.
+#'@param chr_name Name of chromosome column. Default is 'chr'.
+#'@param start_name Name of start position column. Default is 'pos.'
 #'@param end_name Name of end position column. Default is 'pos'
-#'@param strand Strand. Default is '+'.
-#'@param ref_genome Reference genome version. Default is 'GRCm38'
+#'@param strand_name Name of end position column. Default is NULL.
+#'@param ref_version Reference genome version. Default is 'ref_genome()'.
+#'@param seq_lengths List of sequence lengths with sequence name as key. Default is NULL.
+#'@param is_circular Whether genome is circular. Default is FALSE.
 #'@return GenomicRanges::GRanges object.
 #'@examples geno = finemap("chr1", start=5000000, end=6000000,
 #'strain1=c("C57BL_6J"), strain2=c("AKR_J", "A_J", "BALB_cJ"))
 #'
-#'geno.granges = df2GRanges(geno)
+#'geno$strand = "+"
+#'seq_lengths = stats::setNames(as.list(avail_chromosomes()$length), avail_chromosomes()$chr)
+#'geno.granges = df2GRanges(geno, strand_name="strand", seq_lengths=seq_lengths)
 #'@export
 df2GRanges = function(geno,
                       chr_name = "chr",
                       start_name = "pos",
                       end_name = "pos",
-                      strand = "+",
-                      ref_genome = "GRCm38") {
+                      strand_name = NULL,
+                      ref_version = ref_genome(),
+                      seq_lengths = NULL,
+                      is_circular = FALSE) {
     gres = GenomicRanges::makeGRangesFromDataFrame(
         geno,
         start.field = start_name,
@@ -35,12 +41,25 @@ df2GRanges = function(geno,
         keep.extra.columns = TRUE
     )
 
-    GenomicRanges::strand(gres) = strand
-    GenomeInfoDb::genome(gres) = ref_genome
+    if (!is.null(strand_name))
+        GenomicRanges::strand(gres) = geno[, strand_name]
+
+
+    # SeqInfo
+    if (!is.null(ref_version))
+        GenomeInfoDb::genome(gres) = ref_version
+
+    if (!is.null(is_circular))
+        GenomeInfoDb::isCircular(gres) = rep(is_circular, length(GenomeInfoDb::seqlevels(gres)))
+
+    if (!is.null(seq_lengths))
+        GenomeInfoDb::seqlengths(gres) =
+            unlist(seq_lengths[GenomeInfoDb::seqlevels(gres)], use.names = FALSE)
+
+
     comment(gres) = comment(geno)
 
     return(gres)
-
 }
 
 
@@ -54,7 +73,6 @@ df2GRanges = function(geno,
 #'geno = GRanges2df(geno.granges)
 #'@export
 GRanges2df = function(granges) {
-
     geno = as.data.frame(granges)
     comment(geno) = comment(granges)
 

@@ -61,9 +61,14 @@ View meta information
 comment(res)
 ```
 
-Annotate consequences and genes
+Annotate with consequences (Not recommended for large queries!)
 ```{r eval=FALSE}
 cons = annotate_consequences(res, "mouse")
+```
+
+Annotate with genes
+```{r eval=FALSE}
+genes = annotate_mouse_genes(res, flanking = 50000)
 ```
 
 # Output of Session Info

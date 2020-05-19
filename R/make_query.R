@@ -144,6 +144,8 @@ finemap_query = function(chr,
     }
 
 
+    pars = NULL
+
     pars = c(paste0("thr1=", thr1), paste0("thr2=", thr2))
 
 

@@ -10,9 +10,9 @@
 source("R/granges_conversion.R")
 
 
-#'Annotate consequences
+#'Annotate with consequences
 #'@description Request variant consequences from Variant Effect Predictor
-#'(VEP) via Ensembl Rest Service.
+#'(VEP) via Ensembl Rest Service. Not recommended for large queries!
 #'@param geno Data frame or GenomicRanges::GRanges object including columns rsid, ref, alt.
 #'@param species Species name, e.g. mouse (GRCm38) or human (GRCh38).
 #'@return Data frame.
@@ -163,3 +163,170 @@ df_split = function(df, n) {
         return(df[from:to,])
     }))
 }
+
+
+#'Annotate with genes
+#'@description Request mouse genes from Ensembl Biomart.
+#'@param geno Data frame or GenomicRanges::GRanges object including columns chr, pos.
+#'@param flanking Size of flanking sequence to be included.
+#'@return Data frame.
+#'@examples geno = finemap("chr1", start=5000000, end=6000000,
+#'strain1=c("C57BL_6J"), strain2=c("AKR_J", "A_J", "BALB_cJ"))
+#'
+#'genes = annotate_mouse_genes(geno, 50000)
+#'@export
+annotate_mouse_genes = function(geno, flanking = NULL) {
+    if (!("GRanges" %in% methods::is(geno)))
+        geno = df2GRanges(geno)
+
+    if (is.numeric(flanking)) {
+        GenomicRanges::start(geno) = GenomicRanges::start(geno) - flanking
+        GenomicRanges::end(geno) = GenomicRanges::end(geno) + flanking
+    }
+
+    # biomaRt::listMarts ()
+    m = biomaRt::useMart("ENSEMBL_MART_ENSEMBL")
+    datasets = biomaRt::listDatasets(m)
+    # head(datasets[grep ("musculus", datasets$dataset),])
+
+    if (!startsWith(datasets$version[datasets$dataset == "mmusculus_gene_ensembl"], ref_genome()))
+        stop(
+            "Reference genome version of BiomaRt is different from the one used in the R package.
+             Contact maintainer."
+        )
+
+    ds = biomaRt::useDataset("mmusculus_gene_ensembl", mart = m)
+
+    # filters = listFilters(ds)
+    # attributes = listAttributes(ds)
+
+
+    # Request Biomart
+    res = biomaRt::getBM(
+        attributes = c(
+            'external_gene_name',
+            'external_gene_source',
+            'ensembl_gene_id',
+            'description',
+            'chromosome_name',
+            'start_position',
+            'end_position',
+            'strand',
+            'gene_biotype'
+        ),
+        filters = "chromosome_name",
+        values = GenomeInfoDb::seqlevels(geno),
+        mart = ds
+    )
+
+
+    # Convert Biomart output to GRanges object
+    res$strand = vapply(res$strand, function(x)
+        if (x == 1)
+            "+"
+        else
+            "-", character(1))
+    res.granges = df2GRanges(
+        res,
+        chr_name = "chromosome_name",
+        start_name = 'start_position',
+        end_name = 'end_position'
+    )
+
+
+    # Overlap
+    inters = GenomicRanges::intersect(res.granges,
+                                      geno, ignore.strand = TRUE)
+
+    geno.subset = IRanges::subsetByOverlaps(geno, inters)
+    res.subset = IRanges::subsetByOverlaps(res.granges, inters)
+
+
+    # Reformat
+    res.subset = as.data.frame(res.subset)
+    colnames(res.subset) = c(
+        "chr",
+        "start",
+        "end",
+        "width",
+        "strand",
+        "symbol",
+        "symbol_source",
+        "ensgid",
+        "description",
+        "biotype"
+    )
+    res.subset = res.subset[, c(
+        "chr",
+        "start",
+        "end",
+        "symbol",
+        "symbol_source",
+        "ensgid",
+        "description",
+        "biotype",
+        "strand"
+    )]
+
+    return(res.subset)
+}
+
+
+#Annotate with consequences
+#@description Request mouse genes from Ensembl Biomart.
+#@param geno Data frame or GenomicRanges::GRanges object including columns chr, pos.
+#@return Data frame.
+#@examples geno = finemap("chr1", start=5000000, end=6000000,
+#strain1=c("C57BL_6J"), strain2=c("AKR_J", "A_J", "BALB_cJ"))
+#
+#cons = annotate_mouse_consequences(geno)
+#@export
+# annotate_mouse_consequences = function(geno) {
+#     if ("GRanges" %in% methods::is(geno))
+#         geno = GRanges2df(geno)
+#
+#
+#     # biomaRt::listMarts()
+#     m = biomaRt::useMart("ENSEMBL_MART_SNP")
+#     datasets = biomaRt::listDatasets(m)
+#     # head(datasets[grep ("mmusculus", datasets$dataset),])
+#
+#     if (!startsWith(datasets$version[datasets$dataset == "mmusculus_snp"], ref_genome()))
+#         stop(
+#             "Reference genome version of BiomaRt is different from the one used in the R package.
+#              Contact maintainer."
+#         )
+#
+#     ds = biomaRt::useDataset("mmusculus_snp", mart = m)
+#
+#     # filters = listFilters(ds)
+#     attributes = listAttributes(ds)
+#
+#
+#     # Request Biomart
+#     res = biomaRt::getBM(
+#         attributes = c(
+#             "refsnp_id",
+#             "chr_name",
+#             "chrom_start",
+#             "chrom_end",
+#             "allele"
+#             #"consequence_type_tv",
+#             #"consequence_allele_string"
+#         ),
+#         filters = c("chr_name", "start", "end"),
+#         values = list(
+#             chr_name = geno$chr,
+#             start = geno$pos,
+#             end = geno$pos
+#         ),
+#         mart = ds
+#     )
+#
+#
+#     # Reformat
+#     res = as.data.frame(res)
+#
+#
+#     return(res)
+# }

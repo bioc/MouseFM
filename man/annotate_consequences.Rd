@@ -2,7 +2,7 @@
 % Please edit documentation in R/annotation.R
 \name{annotate_consequences}
 \alias{annotate_consequences}
-\title{Annotate consequences}
+\title{Annotate with consequences}
 \usage{
 annotate_consequences(geno, species)
 }
@@ -16,7 +16,7 @@ Data frame.
 }
 \description{
 Request variant consequences from Variant Effect Predictor
-(VEP) via Ensembl Rest Service.
+(VEP) via Ensembl Rest Service. Not recommended for large queries!
 }
 \examples{
 geno = finemap("chr1", start=5000000, end=6000000,

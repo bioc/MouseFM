@@ -13,15 +13,15 @@ source("R/granges_conversion.R")
 
 
 #'Prioritization of inbred mouse strains for refining genetic regions
-#'@description This method allows to select additional strains which
+#'@description This method allows to select strains which
 #'best resolve a specified genetic region (GRCm38), e.g. QTL found by a crossing
-#'experiment of two inbred mouse strains. The selected additional strains can
-#'then be used to refine the region in further crossing experiments.
+#'experiment of two inbred mouse strains 'strain1' and 'strain2'. The outputted strain
+#'combinations can then be used to refine the region in further crossing experiments.
 #'@param chr Vector of chromosome names.
 #'@param start Optional vector of chromosomal start positions of target regions (GRCm38).
 #'@param end Optional vector of chromosomal end positions of target regions (GRCm38).
-#'@param strain1 First strain.
-#'@param strain2 Second strain.
+#'@param strain1 One or more strains from avail_strains(). Default is NULL.
+#'@param strain2 One or more strains from avail_strains(). Default is NULL.
 #'@param consequence Optional vector of consequence types.
 #'@param impact Optional vector of impact types.
 #'@param max_set_size Maximum set of strains.
@@ -35,15 +35,15 @@ source("R/granges_conversion.R")
 #'comment(res$genotypes)
 #'@export
 prio = function(chr,
-                    start = NULL,
-                    end = NULL,
-                    strain1,
-                    strain2,
-                    consequence = NULL,
-                    impact = NULL,
-                    min_strain_benef = 0.1,
-                    max_set_size = 3,
-                    return_obj = "dataframe") {
+                start = NULL,
+                end = NULL,
+                strain1,
+                strain2,
+                consequence = NULL,
+                impact = NULL,
+                min_strain_benef = 0.1,
+                max_set_size = 3,
+                return_obj = "dataframe") {
     stopifnot(
         is.vector(strain1),
         is.vector(strain2),
@@ -54,11 +54,15 @@ prio = function(chr,
 
     # Create URL and query data
     res = lapply(seq_len(length(chr)), function(i) {
-        message(paste0("Query ", chr[i], if (is.numeric(start[i]) &&
-                                             is.numeric(end[i]))
-            paste0(":", scales::comma(start[i]), "-", scales::comma(end[i]))
+        message(paste0(
+            "Query ",
+            chr[i],
+            if (is.numeric(start[i]) &&
+                is.numeric(end[i]))
+                paste0(":", scales::comma(start[i]), "-", scales::comma(end[i]))
             else
-                ""))
+                ""
+        ))
         q = finemap_query(chr[i],
                           start[i],
                           end[i],
@@ -74,7 +78,8 @@ prio = function(chr,
 
 
     # Return if no results
-    if(nrow(geno) == 0) return(list())
+    if (nrow(geno) == 0)
+        return(list())
 
 
     # Convert to respective data types
@@ -110,13 +115,16 @@ prio = function(chr,
     # Create final reduction factor data frame
     rf = cbind(strain1 = rep(strain1, nrow(rf)),
                strain2 = rep(strain2, nrow(rf)),
-               rf[rev(order(rf$min)),])
+               rf[rev(order(rf$min)), ])
     row.names(rf) = seq_len(nrow(rf))
 
 
     # Create GRanges container
     if (tolower(return_obj) == "granges") {
-        geno = df2GRanges(geno)
+        geno$strand = "+"
+        l = stats::setNames(as.list(avail_chromosomes()$length),
+                               avail_chromosomes()$chr)
+        return(df2GRanges(geno, strand_name = "strand", seq_lengths = l))
     }
 
 
@@ -144,12 +152,18 @@ comb = function(geno,
         red = reduction(combs, geno)
 
         if (i == 1 && max_set_size > 1 && min_strain_benef > 0) {
-
-
             # Filter
-            geno = geno[names(geno) %in% unlist(combs[red$min >= min_strain_benef,])]
+            geno = geno[names(geno) %in% unlist(combs[red$min >= min_strain_benef, ])]
 
-            message(paste0("Set size ", i, ": continue with ", ncol(geno), " of ", n_strains, " strains"))
+            message(paste0(
+                "Set size ",
+                i,
+                ": continue with ",
+                ncol(geno),
+                " of ",
+                n_strains,
+                " strains"
+            ))
         }
 
 
@@ -202,8 +216,8 @@ reduction = function(combs, geno) {
 #'get_top(l$reduction, 3)
 #'@export
 get_top = function(rf, n_top) {
-    rf = rf[rev(order(rf$min)),]
-    top.n = rf[seq_len(min(nrow(rf), n_top)), ]
+    rf = rf[rev(order(rf$min)), ]
+    top.n = rf[seq_len(min(nrow(rf), n_top)),]
 
     return(top.n)
 }
@@ -230,7 +244,7 @@ vis_reduction_factors = function(geno, rf, n_top) {
     strain2 = rf$strain2[1]
     top.n = get_top(rf, n_top)
 
-    geno = geno[order(geno$chr, geno$pos),]
+    geno = geno[order(geno$chr, geno$pos), ]
     geno$pos = seq_len(nrow(geno))
 
 
@@ -239,15 +253,19 @@ vis_reduction_factors = function(geno, rf, n_top) {
 
 
     # Replace 0/1 by strain1/strain2 name
-    geno.mod = lapply(other_strains, function(s){
-            vapply(seq_len(nrow(geno)), function(i)if(geno[i,strain1] == geno[i,s]) strain1 else strain2, character(1))
-        })
+    geno.mod = lapply(other_strains, function(s) {
+        vapply(seq_len(nrow(geno)), function(i)
+            if(geno[i, strain1] == geno[i, s])
+                strain1
+            else
+                strain2, character(1))
+    })
 
 
     geno.mod = as.data.frame(rlist::list.cbind(geno.mod))
     colnames(geno.mod) = other_strains
     geno = cbind(geno[c("chr", "pos", "rsid", "ref", "alt", "consequences", strain1)], geno.mod)
-    geno[,strain1] = strain1
+    geno[, strain1] = strain1
 
 
     plots = list()

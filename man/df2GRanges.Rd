@@ -9,22 +9,28 @@ df2GRanges(
   chr_name = "chr",
   start_name = "pos",
   end_name = "pos",
-  strand = "+",
-  ref_genome = "GRCm38"
+  strand_name = NULL,
+  ref_version = ref_genome(),
+  seq_lengths = NULL,
+  is_circular = FALSE
 )
 }
 \arguments{
-\item{geno}{Data frame}
+\item{geno}{Data frame.}
 
-\item{chr_name}{Name of chromosome column. Default is 'chr'}
+\item{chr_name}{Name of chromosome column. Default is 'chr'.}
 
-\item{start_name}{Name of start position column. Default is 'pos'}
+\item{start_name}{Name of start position column. Default is 'pos.'}
 
 \item{end_name}{Name of end position column. Default is 'pos'}
 
-\item{strand}{Strand. Default is '+'.}
+\item{strand_name}{Name of end position column. Default is NULL.}
 
-\item{ref_genome}{Reference genome version. Default is 'GRCm38'}
+\item{ref_version}{Reference genome version. Default is 'ref_genome()'.}
+
+\item{seq_lengths}{List of sequence lengths with sequence name as key. Default is NULL.}
+
+\item{is_circular}{Whether genome is circular. Default is FALSE.}
 }
 \value{
 GenomicRanges::GRanges object.
@@ -36,5 +42,7 @@ Wrapper for GenomicRanges::makeGRangesFromDataFrame().
 geno = finemap("chr1", start=5000000, end=6000000,
 strain1=c("C57BL_6J"), strain2=c("AKR_J", "A_J", "BALB_cJ"))
 
-geno.granges = df2GRanges(geno)
+geno$strand = "+"
+seq_lengths = stats::setNames(as.list(avail_chromosomes()$length), avail_chromosomes()$chr)
+geno.granges = df2GRanges(geno, strand_name="strand", seq_lengths=seq_lengths)
 }

@@ -44,5 +44,8 @@ Imports:
     jsonlite,
     rlist,
     GenomeInfoDb,
-    methods
+    methods,
+    biomaRt,
+    stats,
+    IRanges
 RoxygenNote: 7.1.0
