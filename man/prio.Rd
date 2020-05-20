@@ -43,8 +43,8 @@ as data frame ("dataframe") or as a GenomicRanges::GRanges ("granges") object. D
 Dataframe
 }
 \description{
-This method allows to select strains which
-best resolve a specified genetic region (GRCm38). E.g. if a crossing experiment with two inbred
+This method allows to select strain combinations which
+best refine a specified genetic region (GRCm38). E.g. if a crossing experiment with two inbred
 mouse strains 'strain1' and 'strain2' resulted in a QTL, the outputted strain
 combinations can be used to refine the respective region in further crossing experiments.
 }

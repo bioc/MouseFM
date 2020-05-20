@@ -12,7 +12,7 @@
 ## Introduction
 This **R** package provides methods for **genetic finemapping** in **inbred mice** by taking advantage of their **very high homozygosity rate** (>95%). 
 
-For one ore more chromosomal regions (**GRCm38**), method `finemap` extracts homozygous SNPs for which the allele differs between two sets of strains (e.g. case vs controls) and outputs respective causal SNP/gene candidates.
+For one ore more chromosomal regions (**GRCm38**), method `finemap` extracts homozygous single nucleotide variants (SNVs) for which the allele differs between two sets of strains (e.g. case vs controls) and outputs respective causal SNV/gene candidates.
 
 Method `prio` allows to **select additional strains** which best resolve a specified genetic region, e.g. QTL found by a crossing experiment of two inbred mouse strains. The selected additional strains can then be used to refine the region in further crossing experiments.
 

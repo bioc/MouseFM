@@ -20,7 +20,7 @@ knitr::opts_chunk$set(
 This **R** package provides methods for **genetic finemapping** in **inbred mice** 
 by taking advantage of their **very high homozygosity rate** (>95%). 
 
-For one ore more chromosomal regions (**GRCm38**), method `finemap` extracts homozygous SNPs for which the allele differs between two sets of strains (e.g. case vs controls) and outputs respective causal SNP/gene candidates.
+For one ore more chromosomal regions (**GRCm38**), method `finemap` extracts homozygous SNVs for which the allele differs between two sets of strains (e.g. case vs controls) and outputs respective causal SNV/gene candidates.
 
 # Installation
 ```{r setup, eval=FALSE}

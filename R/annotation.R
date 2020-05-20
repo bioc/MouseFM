@@ -31,6 +31,8 @@ annotate_consequences = function(geno, species) {
         geno = GRanges2df(geno)
     }
 
+    if(length(is.na(geno$rsid)) > 0)
+        message("Please consider: only SNVs with existing rsID can be annotated");
     df.split = df_split(geno[!is.na(geno$rsid),], 200)
 
     res = lapply(df.split, function(x) {
@@ -272,91 +274,57 @@ annotate_mouse_genes = function(geno, flanking = NULL) {
 }
 
 
-#Request variant consequences from Variant Effect Predictor (VEP)
-#via Ensembl Rest Service
-#@param geno Data frame including columns rsid, ref, alt.
-#@param species Species name, e.g. mouse or human.
+#Annotate with consequences
+#@description Request mouse genes from Ensembl Biomart.
+#@param geno Data frame or GenomicRanges::GRanges object including columns chr, pos.
 #@return Data frame.
-#@keywords internal
-# ensembl_rest_overlap_vars = function(chr, start, end, a1, a2, species) {
-#     # Check if there is an internet connection
-#     if (!curl::has_internet())
-#         stop("No internet connection detected...")
+#@examples geno = finemap("chr1", start=5000000, end=6000000,
+#strain1=c("C57BL_6J"), strain2=c("AKR_J", "A_J", "BALB_cJ"))
+#
+#cons = annotate_mouse_consequences(geno)
+#@export
+# annotate_mouse_consequences = function(geno) {
+#     if ("GRanges" %in% methods::is(geno))
+#         geno = GRanges2df(geno)
 #
 #
-#     # Request
-#     server = "https://rest.ensembl.org"
-#     ext = paste0("/overlap/region/", species, "/", chr, ":", start, "-", end, "?feature=variation")
-#     r = httr::GET(paste(server, ext, sep = ""), httr::content_type("text/bed"))
+#     # biomaRt::listMarts()
+#     m = biomaRt::useMart("ENSEMBL_MART_SNP")
+#     datasets = biomaRt::listDatasets(m)
+#     # head(datasets[grep ("mmusculus", datasets$dataset),])
+#
+#     if (!startsWith(datasets$version[datasets$dataset == "mmusculus_snp"], ref_genome()))
+#         stop(
+#             "Reference genome version of BiomaRt is different from the one used in the R package.
+#              Contact maintainer."
+#         )
+#
+#     ds = biomaRt::useDataset("mmusculus_snp", mart = m)
+#
+#     filters = listFilters(ds)
+#     attributes = listAttributes(ds)
 #
 #
-#     httr::stop_for_status(r)
+#     # Request Biomart
+#     res = biomaRt::getBM(
+#         attributes = c(
+#             "refsnp_id",
+#             "chr_name",
+#             "chrom_start",
+#             "chrom_end",
+#             "allele",
+#             "consequence_type_tv",
+#             "consequence_allele_string"
+#         ),
+#         filters = "snp_filter",
+#         values = geno[!is.na(geno$rsid),"rsid"],
+#         mart = ds
+#     )
 #
 #
-#     res = as.data.frame(t(unlist(httr::content(r))))
-#
-#     res = as.data.frame(t(unlist(a)))
-#
-#     # Filter for alleles
-#     final = final[final$snp %in% geno$rsid &
-#                       (final$variant_allele %in% geno$ref |
-#                            final$variant_allele %in% geno$alt),]
+#     # Reformat
+#     res = as.data.frame(res)
 #
 #
-#     return(final)
+#     return(res)
 # }
-
-#'Annotate with consequences
-#'@description Request mouse genes from Ensembl Biomart.
-#'@param geno Data frame or GenomicRanges::GRanges object including columns chr, pos.
-#'@return Data frame.
-#'@examples geno = finemap("chr1", start=5000000, end=6000000,
-#'strain1=c("C57BL_6J"), strain2=c("AKR_J", "A_J", "BALB_cJ"))
-#'
-#'cons = annotate_mouse_consequences(geno)
-#'@export
-annotate_mouse_consequences = function(geno) {
-    if ("GRanges" %in% methods::is(geno))
-        geno = GRanges2df(geno)
-
-
-    # biomaRt::listMarts()
-    m = biomaRt::useMart("ENSEMBL_MART_SNP")
-    datasets = biomaRt::listDatasets(m)
-    # head(datasets[grep ("mmusculus", datasets$dataset),])
-
-    if (!startsWith(datasets$version[datasets$dataset == "mmusculus_snp"], ref_genome()))
-        stop(
-            "Reference genome version of BiomaRt is different from the one used in the R package.
-             Contact maintainer."
-        )
-
-    ds = biomaRt::useDataset("mmusculus_snp", mart = m)
-
-    filters = listFilters(ds)
-    attributes = listAttributes(ds)
-
-
-    # Request Biomart
-    res = biomaRt::getBM(
-        attributes = c(
-            "refsnp_id",
-            "chr_name",
-            "chrom_start",
-            "chrom_end",
-            "allele",
-            "consequence_type_tv",
-            "consequence_allele_string"
-        ),
-        filters = "snp_filter",
-        values = geno[!is.na(geno$rsid),"rsid"],
-        mart = ds
-    )
-
-
-    # Reformat
-    res = as.data.frame(res)
-
-
-    return(res)
-}

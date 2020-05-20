@@ -13,8 +13,8 @@ source("R/granges_conversion.R")
 
 
 #'Prioritization of inbred mouse strains for refining genetic regions
-#'@description This method allows to select strains which
-#'best resolve a specified genetic region (GRCm38). E.g. if a crossing experiment with two inbred
+#'@description This method allows to select strain combinations which
+#'best refine a specified genetic region (GRCm38). E.g. if a crossing experiment with two inbred
 #'mouse strains 'strain1' and 'strain2' resulted in a QTL, the outputted strain
 #'combinations can be used to refine the respective region in further crossing experiments.
 #'@param chr Vector of chromosome names.
@@ -143,7 +143,7 @@ comb = function(geno,
 
     for (i in seq_len(max_set_size)) {
         combs = as.data.frame(gtools::combinations(ncol(geno), i, colnames(geno)))
-        message(paste0("Set size ", i, ": ", nrow(combs), " combinations"))
+        message(paste0("Set size ", i, ": ", scales::comma(nrow(combs)), " combinations"))
         red = reduction(combs, geno)
 
         if (i == 1 && max_set_size > 1 && min_strain_benef > 0) {
@@ -154,9 +154,9 @@ comb = function(geno,
                 "Set size ",
                 i,
                 ": continue with ",
-                ncol(geno),
+                scales::comma(ncol(geno)),
                 " of ",
-                n_strains,
+                scales::comma(n_strains),
                 " strains"
             ))
         }
@@ -324,7 +324,7 @@ vis_reduction_factors = function(geno, rf, n_top) {
                     " Reduction factor: ",
                     round(top.n$min[i], digits = 3),
                     " | ",
-                    paste0(scales::comma(nrow(geno)), " SNPs")
+                    paste0(scales::comma(nrow(geno)), " SNV(s)")
                 )
             ) +
             ggplot2::theme(

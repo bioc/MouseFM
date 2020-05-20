@@ -45,9 +45,9 @@ Data frame or GenomicRanges::GRanges object containing result data.
 \description{
 Finemapping of genetic regions in 37 inbred mice by taking
 advantage of their very high homozygosity rate (>95%). For one ore more chromosomal
-regions (GRCm38), this method extracts homozygous SNPs for which the allele differs
+regions (GRCm38), this method extracts homozygous SNVs for which the allele differs
 between two sets of strains (e.g. case vs controls) and outputs respective
-causal SNP/gene candidates.
+causal SNV/gene candidates.
 }
 \examples{
 geno = finemap("chr1", start=5000000, end=6000000,
