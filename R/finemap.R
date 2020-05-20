@@ -21,8 +21,8 @@ source("R/granges_conversion.R")
 #'@param chr Vector of chromosome names.
 #'@param start Optional vector of chromosomal start positions of target regions (GRCm38).
 #'@param end Optional vector of chromosomal end positions of target regions (GRCm38).
-#'@param strain1 First strain(s).
-#'@param strain2 Second strain(s).
+#'@param strain1 First strain set with strains from avail_strains().
+#'@param strain2 Second strain set with strains from avail_strains().
 #'@param consequence Optional vector of consequence types.
 #'@param impact Optional vector of impact types.
 #'@param thr1 Number discordant strains in strain1. Between 0 and length(strain1)-1. 0 by default.

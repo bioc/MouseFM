@@ -43,7 +43,7 @@ fetch = function(chr,
             else
                 ""
         ))
-        q = filter_query(chr[i], start[i], end[i], consequence, impact)
+        q = finemap_query(chr[i], start[i], end[i], consequence=consequence, impact=impact)
         genehopper_request(q)
     })
 

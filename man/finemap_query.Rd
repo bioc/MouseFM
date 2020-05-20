@@ -8,8 +8,8 @@ finemap_query(
   chr,
   start = NULL,
   end = NULL,
-  strain1,
-  strain2,
+  strain1 = NULL,
+  strain2 = NULL,
   consequence = NULL,
   impact = NULL,
   thr1 = 0,
@@ -23,9 +23,9 @@ finemap_query(
 
 \item{end}{Optional vector of chromosomal end positions of target regions (GRCm38).}
 
-\item{strain1}{First strain(s).}
+\item{strain1}{First strain set with strains from avail_strains().}
 
-\item{strain2}{Second strain(s).}
+\item{strain2}{Second strain set with strains from avail_strains().}
 
 \item{consequence}{Optional vector of consequence types.}
 

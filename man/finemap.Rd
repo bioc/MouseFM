@@ -24,9 +24,9 @@ finemap(
 
 \item{end}{Optional vector of chromosomal end positions of target regions (GRCm38).}
 
-\item{strain1}{First strain(s).}
+\item{strain1}{First strain set with strains from avail_strains().}
 
-\item{strain2}{Second strain(s).}
+\item{strain2}{Second strain set with strains from avail_strains().}
 
 \item{consequence}{Optional vector of consequence types.}
 

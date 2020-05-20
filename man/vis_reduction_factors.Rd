@@ -21,7 +21,7 @@ Visualize reduction factors
 }
 \examples{
 l = prio(c("chr1", "chr2"), start=c(5000000, 5000000),
-end=c(6000000, 6000000), strain1="C3H_HeH", strain2="AKR_J")
+end=c(6000000, 6000000), strain1=c("C3H_HeH"), strain2="AKR_J")
 
 plots = vis_reduction_factors(l$genotypes, l$reduction, 2)
 

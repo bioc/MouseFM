@@ -8,8 +8,8 @@ prio(
   chr,
   start = NULL,
   end = NULL,
-  strain1,
-  strain2,
+  strain1 = NULL,
+  strain2 = NULL,
   consequence = NULL,
   impact = NULL,
   min_strain_benef = 0.1,
@@ -24,9 +24,9 @@ prio(
 
 \item{end}{Optional vector of chromosomal end positions of target regions (GRCm38).}
 
-\item{strain1}{One or more strains from avail_strains(). Default is NULL.}
+\item{strain1}{First strain set with strains from avail_strains().}
 
-\item{strain2}{One or more strains from avail_strains(). Default is NULL.}
+\item{strain2}{Second strain set with strains from avail_strains().}
 
 \item{consequence}{Optional vector of consequence types.}
 
@@ -44,9 +44,9 @@ Dataframe
 }
 \description{
 This method allows to select strains which
-best resolve a specified genetic region (GRCm38), e.g. QTL found by a crossing
-experiment of two inbred mouse strains 'strain1' and 'strain2'. The outputted strain
-combinations can then be used to refine the region in further crossing experiments.
+best resolve a specified genetic region (GRCm38). E.g. if a crossing experiment with two inbred
+mouse strains 'strain1' and 'strain2' resulted in a QTL, the outputted strain
+combinations can be used to refine the respective region in further crossing experiments.
 }
 \examples{
 res = prio("chr1", start=5000000, end=6000000, strain1="C57BL_6J",
