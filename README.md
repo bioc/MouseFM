@@ -14,7 +14,9 @@ This **R** package provides methods for **genetic finemapping** in **inbred mice
 
 For one ore more chromosomal regions (**GRCm38**), method `finemap` extracts homozygous single nucleotide variants (SNVs) for which the allele differs between two sets of strains (e.g. case vs controls) and outputs respective causal SNV/gene candidates.
 
-Method `prio` allows to **select additional strains** which best resolve a specified genetic region, e.g. QTL found by a crossing experiment of two inbred mouse strains. The selected additional strains can then be used to refine the region in further crossing experiments.
+Method `prio` allows to select strain combinations which best refine a specified genetic region. E.g. if a crossing experiment with two inbred mouse strains 'strain1' and 'strain2' resulted in a QTL, the outputted strain combinations can be used to refine the respective region in further crossing experiments for selecting causal SNP/gene candidates.
+
+Method `fetch` allows to fetch genotypes for a specific region of interest.
 
 
 ## Available inbred strains
