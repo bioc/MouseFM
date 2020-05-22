@@ -3,3 +3,6 @@ Changes in version 0.1.0 (2020-05-04)
 
 Changes in version 0.99.0 (2020-05-21)
 + Submission to Bioconductor
+
+Changes in version 0.99.1 (2020-05-22)
++ Updated .gitignore
