@@ -7,7 +7,8 @@
 annotate_consequences(geno, species)
 }
 \arguments{
-\item{geno}{Data frame or GenomicRanges::GRanges object including columns rsid, ref, alt.}
+\item{geno}{Data frame or GenomicRanges::GRanges object including columns
+rsid, ref, alt.}
 
 \item{species}{Species name, e.g. mouse (GRCm38) or human (GRCh38).}
 }
@@ -15,17 +16,22 @@ annotate_consequences(geno, species)
 Data frame.
 }
 \description{
-Request variant consequences from Variant Effect Predictor
-(VEP) via Ensembl Rest Service. Not recommended for large queries!
+Request variant consequences from Variant Effect Predictor (VEP)
+via Ensembl Rest Service. Not recommended for large queries.
 }
 \examples{
-geno = finemap("chr1", start=5000000, end=6000000,
-strain1=c("C57BL_6J"), strain2=c("AKR_J", "A_J", "BALB_cJ"))
+geno = finemap("chr1",
+  start = 5000000, end = 6000000,
+  strain1 = c("C57BL_6J"), strain2 = c("AKR_J", "A_J", "BALB_cJ")
+)
 
-df = annotate_consequences(geno[seq_len(10),], "mouse")
+df = annotate_consequences(geno[seq_len(10), ], "mouse")
 
-geno.granges = finemap("chr1", start=5000000, end=6000000,
-strain1=c("C57BL_6J"), strain2=c("AKR_J", "A_J", "BALB_cJ"), return_obj="granges")
+geno.granges = finemap("chr1",
+    start = 5000000, end = 6000000,
+    strain1 = c("C57BL_6J"), strain2 = c("AKR_J", "A_J", "BALB_cJ"),
+    return_obj = "granges"
+)
 
-df2 = annotate_consequences(geno.granges[seq_len(10),], "mouse")
+df2 = annotate_consequences(geno.granges[seq_len(10), ], "mouse")
 }

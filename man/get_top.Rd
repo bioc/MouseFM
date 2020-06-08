@@ -4,10 +4,10 @@
 \alias{get_top}
 \title{Best strain combinations}
 \usage{
-get_top(rf, n_top)
+get_top(red, n_top)
 }
 \arguments{
-\item{rf}{Reduction factors data frame.}
+\item{red}{Reduction factors data frame.}
 
 \item{n_top}{Number of combinations to be returned.}
 }
@@ -18,7 +18,10 @@ Data frame
 Get best strain combinations
 }
 \examples{
-l = prio("chr1", start=5000000, end=6000000, strain1="C57BL_6J", strain2="AKR_J")
+l = prio("chr1",
+  start = 5000000, end = 6000000,
+  strain1 = "C57BL_6J", strain2 = "AKR_J"
+)
 
 get_top(l$reduction, 3)
 }

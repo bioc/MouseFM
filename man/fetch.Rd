@@ -16,25 +16,29 @@ fetch(
 \arguments{
 \item{chr}{Vector of chromosome names.}
 
-\item{start}{Optional vector of chromosomal start positions of target regions (GRCm38).}
+\item{start}{Optional vector of chromosomal start positions of target regions
+(GRCm38).}
 
-\item{end}{Optional vector of chromosomal end positions of target regions (GRCm38).}
+\item{end}{Optional vector of chromosomal end positions of target regions
+(GRCm38).}
 
 \item{consequence}{Optional vector of consequence types.}
 
 \item{impact}{Optional vector of impact types.}
 
 \item{return_obj}{The user can choose to get the result to be returned
-as data frame ("dataframe") or as a GenomicRanges::GRanges ("granges") object. Default value is "dataframe".}
+as data frame ("dataframe") or as a GenomicRanges::GRanges ("granges")
+object. Default value is "dataframe".}
 }
 \value{
 Data frame or GenomicRanges::GRanges object containing result data.
 }
 \description{
-Fetch homozygous genotypes for a specified chromosomal region in 37 inbred mouse strains.
+Fetch homozygous genotypes for a specified chromosomal region in
+37 inbred mouse strains.
 }
 \examples{
-geno = fetch("chr7", start=5000000, end=6000000)
+geno = fetch("chr7", start = 5000000, end = 6000000)
 
 comment(geno)
 }

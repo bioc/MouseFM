@@ -12,7 +12,7 @@ reduction(combs, geno)
 \item{geno}{Data frame of genotypes for additional strains.}
 }
 \value{
-Dataframe
+Data frame
 }
 \description{
 Generate strain sets and calculate reduction factors

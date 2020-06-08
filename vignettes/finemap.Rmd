@@ -29,12 +29,6 @@ if(!requireNamespace("BiocManager", quietly = TRUE))
 BiocManager::install("MouseFM")
 ```
 
-or
-
-```{r eval=FALSE}
-devtools::install_github('matmu/MouseFM', build_vignettes = TRUE)
-```
-
 # Loading package
 ```{r}
 library(MouseFM)
@@ -72,7 +66,7 @@ genes = annotate_mouse_genes(res, flanking = 50000)
 ```
 
 # Output of Session Info
-The output of ```sessionInfo()``` on the system
+The output of `sessionInfo()` on the system
 on which this document was compiled:
 ```{r}
 sessionInfo()

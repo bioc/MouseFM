@@ -19,9 +19,11 @@ finemap_query(
 \arguments{
 \item{chr}{Vector of chromosome names.}
 
-\item{start}{Optional vector of chromosomal start positions of target regions (GRCm38).}
+\item{start}{Optional vector of chromosomal start positions of target regions
+(GRCm38).}
 
-\item{end}{Optional vector of chromosomal end positions of target regions (GRCm38).}
+\item{end}{Optional vector of chromosomal end positions of target regions
+(GRCm38).}
 
 \item{strain1}{First strain set with strains from avail_strains().}
 
@@ -31,9 +33,11 @@ finemap_query(
 
 \item{impact}{Optional vector of impact types.}
 
-\item{thr1}{Number discordant strains in strain1. Between 0 and length(strain1)-1. 0 by default.}
+\item{thr1}{Number discordant strains in strain1. Between 0 and
+length(strain1)-1. 0 by default.}
 
-\item{thr2}{Number discordant strains in strain2. Between 0 and length(strain2)-1. 0 by default.}
+\item{thr2}{Number discordant strains in strain2. Between 0 and
+length(strain2)-1. 0 by default.}
 }
 \value{
 Query string.

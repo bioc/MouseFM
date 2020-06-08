@@ -28,7 +28,8 @@ df2GRanges(
 
 \item{ref_version}{Reference genome version. Default is 'ref_genome()'.}
 
-\item{seq_lengths}{List of sequence lengths with sequence name as key. Default is NULL.}
+\item{seq_lengths}{List of sequence lengths with sequence name as key.
+Default is NULL.}
 
 \item{is_circular}{Whether genome is circular. Default is FALSE.}
 }
@@ -39,10 +40,18 @@ GenomicRanges::GRanges object.
 Wrapper for GenomicRanges::makeGRangesFromDataFrame().
 }
 \examples{
-geno = finemap("chr1", start=5000000, end=6000000,
-strain1=c("C57BL_6J"), strain2=c("AKR_J", "A_J", "BALB_cJ"))
+geno = finemap("chr1",
+  start = 5000000, end = 6000000,
+  strain1 = c("C57BL_6J"), strain2 = c("AKR_J", "A_J", "BALB_cJ")
+)
 
 geno$strand = "+"
-seq_lengths = stats::setNames(as.list(avail_chromosomes()$length), avail_chromosomes()$chr)
-geno.granges = df2GRanges(geno, strand_name="strand", seq_lengths=seq_lengths)
+seq_lengths = stats::setNames(
+    as.list(avail_chromosomes()$length),
+    avail_chromosomes()$chr
+)
+geno.granges = df2GRanges(geno,
+    strand_name = "strand",
+    seq_lengths = seq_lengths
+)
 }

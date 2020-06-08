@@ -20,9 +20,11 @@ prio(
 \arguments{
 \item{chr}{Vector of chromosome names.}
 
-\item{start}{Optional vector of chromosomal start positions of target regions (GRCm38).}
+\item{start}{Optional vector of chromosomal start positions of target regions
+(GRCm38).}
 
-\item{end}{Optional vector of chromosomal end positions of target regions (GRCm38).}
+\item{end}{Optional vector of chromosomal end positions of target regions
+(GRCm38).}
 
 \item{strain1}{First strain set with strains from avail_strains().}
 
@@ -37,20 +39,24 @@ prio(
 \item{max_set_size}{Maximum set of strains.}
 
 \item{return_obj}{The user can choose to get the result to be returned
-as data frame ("dataframe") or as a GenomicRanges::GRanges ("granges") object. Default value is "dataframe".}
+as data frame ("dataframe") or as a GenomicRanges::GRanges ("granges")
+object. Default value is "data frame".}
 }
 \value{
-Dataframe
+Data frame
 }
 \description{
-This method allows to select strain combinations which
-best refine a specified genetic region (GRCm38). E.g. if a crossing experiment with two inbred
-mouse strains 'strain1' and 'strain2' resulted in a QTL, the outputted strain
-combinations can be used to refine the respective region in further crossing experiments.
+This method allows to select strain combinations which best
+refine a specified genetic region (GRCm38). E.g. if a crossing experiment
+with two inbred mouse strains 'strain1' and 'strain2' resulted in a QTL, the
+outputted strain combinations can be used to refine the respective region in
+further crossing experiments.
 }
 \examples{
-res = prio("chr1", start=5000000, end=6000000, strain1="C57BL_6J",
-strain2="AKR_J")
+res = prio("chr1",
+  start = 5000000, end = 6000000, strain1 = "C57BL_6J",
+  strain2 = "AKR_J"
+)
 
 comment(res$genotypes)
 }

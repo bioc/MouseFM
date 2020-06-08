@@ -4,24 +4,26 @@
 \alias{vis_reduction_factors}
 \title{Visualize}
 \usage{
-vis_reduction_factors(geno, rf, n_top)
+vis_reduction_factors(geno, red, n_top)
 }
 \arguments{
-\item{geno}{Genotype data frame.}
+\item{geno}{Genotype data frame or GenomicRanges::GRanges object.}
 
-\item{rf}{Reduction factor data frame.}
+\item{red}{Reduction factor data frame.}
 
 \item{n_top}{Number if combinations to be returned.}
 }
 \value{
-Dataframe
+Data frame
 }
 \description{
 Visualize reduction factors
 }
 \examples{
-l = prio(c("chr1", "chr2"), start=c(5000000, 5000000),
-end=c(6000000, 6000000), strain1=c("C3H_HeH"), strain2="AKR_J")
+l = prio(c("chr1", "chr2"),
+  start = c(5000000, 5000000),
+  end = c(6000000, 6000000), strain1 = c("C3H_HeH"), strain2 = "AKR_J"
+)
 
 plots = vis_reduction_factors(l$genotypes, l$reduction, 2)
 

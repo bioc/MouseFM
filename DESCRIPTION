@@ -1,9 +1,14 @@
 Package: MouseFM
 Type: Package
 Title: In-silico methods for finemapping of genetic regions in inbred mice
-Version: 0.99.6
-Authors@R: person("Matthias", "Munz", role = c("aut", "cre"), 
-    email = "matthias.munz@gmx.de", comment = c(ORCID = "0000-0002-4728-3357"))
+Version: 0.99.7
+Authors@R: c(person("Matthias", "Munz", role = c("aut", "cre"), 
+    email = "matthias.munz@gmx.de", comment = c(ORCID = "0000-0002-4728-3357")),
+    person("Inken", "Wohlers", role = c("aut"), 
+    email = "inken.wohlers@uni-luebeck.de.de"),
+    person("Hauke", "Busch", role = c("aut"), 
+    email = "hauke.busch@uni-luebeck.de.de", comment = c(ORCID = "0000-0003-4763-4521"))
+    )
 Description: This package provides methods for genetic finemapping 
     in inbred mice by taking advantage of their very high homozygosity rate (>95%). 
 Encoding: UTF-8

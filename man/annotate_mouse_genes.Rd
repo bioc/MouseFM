@@ -7,7 +7,8 @@
 annotate_mouse_genes(geno, flanking = NULL)
 }
 \arguments{
-\item{geno}{Data frame or GenomicRanges::GRanges object including columns chr, pos.}
+\item{geno}{Data frame or GenomicRanges::GRanges object including columns
+chr, pos.}
 
 \item{flanking}{Size of flanking sequence to be included.}
 }
@@ -18,8 +19,10 @@ Data frame.
 Request mouse genes from Ensembl Biomart.
 }
 \examples{
-geno = finemap("chr1", start=5000000, end=6000000,
-strain1=c("C57BL_6J"), strain2=c("AKR_J", "A_J", "BALB_cJ"))
+geno = finemap("chr1",
+  start = 5000000, end = 6000000,
+  strain1 = c("C57BL_6J"), strain2 = c("AKR_J", "A_J", "BALB_cJ")
+)
 
 genes = annotate_mouse_genes(geno, 50000)
 }
