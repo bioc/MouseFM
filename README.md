@@ -36,7 +36,7 @@ Method `fetch` allows to fetch genotypes for a specific region of interest.
 | 12 | C57BL/6            | 25 | LP/J      |    |             |
 | 13 | C57BL/6NJ          | 26 | MOLF/EiJ  |    |             |
 
-Variation data was taken from the **Mouse Genomes Project** (https://www.sanger.ac.uk/data/mouse-genomes-project//).
+Variation data was taken from the **Mouse Genomes Project** (https://www.sanger.ac.uk/data/mouse-genomes-project/).
 
 
 ## Installation
