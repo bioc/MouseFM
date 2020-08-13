@@ -15,7 +15,7 @@
 #' @keywords internal
 #' @importFrom curl has_internet
 #' @importFrom httr GET POST http_error content
-genehopper_request = function(q, n.tries = 2, method = "GET") {
+backend_request = function(q, n.tries = 2, method = "GET") {
   stopifnot(is.numeric(n.tries))
   stopifnot(method == "GET" || method == "POST")
   stopifnot(nchar(q) > 0)

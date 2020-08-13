@@ -61,7 +61,7 @@ finemap_query = function(chr,
 
   # Build URL
   q = paste0(
-    "http://mousefm.genehopper.de/rest/finemap/",
+    getURL(),
     chr
   )
 
@@ -160,3 +160,26 @@ finemap_query = function(chr,
 
   return(q)
 }
+
+
+#' Set backend service url
+#' @description Set backend service URL. Default: http://mousefm.genehopper.de/rest/finemap/
+#' @param url URL of backend service.
+#' @return No return value.
+#' @examples setURL("http://backendserver.com")
+#' @export
+setURL = function(url) {
+  options("url" = url)
+}
+
+
+#' Get backend service url
+#' @description Get backend service URL. Default: http://mousefm.genehopper.de/rest/finemap/
+#' @return URL string.
+#' @examples getURL()
+#' @export
+getURL = function() {
+  return(getOption("url"))
+}
+
+

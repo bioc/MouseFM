@@ -82,7 +82,7 @@ finemap = function(chr,
             thr1,
             thr2
         )
-        genehopper_request(q)
+        backend_request(q)
     })
 
 

@@ -78,7 +78,7 @@ prio = function(chr,
       consequence,
       impact
     )
-    genehopper_request(q)
+    backend_request(q)
   })
 
 

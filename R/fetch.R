@@ -56,7 +56,7 @@ fetch = function(chr,
             consequence = consequence,
             impact = impact
         )
-        genehopper_request(q)
+        backend_request(q)
     })
 
 
