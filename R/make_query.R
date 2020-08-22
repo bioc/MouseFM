@@ -179,7 +179,11 @@ setURL = function(url) {
 #' @examples getURL()
 #' @export
 getURL = function() {
-  return(getOption("url"))
+  if(is.null(getOption("url")))
+    return("http://mousefm.genehopper.de/rest/finemap/")
+  else
+    return(getOption("url"))
 }
+
 
 
