@@ -60,10 +60,7 @@ finemap_query = function(chr,
 
 
   # Build URL
-  q = paste0(
-    getURL(),
-    chr
-  )
+  q = paste0(getURL(), chr)
 
 
   if (is.numeric(start) && is.numeric(end)) {
@@ -179,10 +176,11 @@ setURL = function(url) {
 #' @examples getURL()
 #' @export
 getURL = function() {
-  if(is.null(getOption("url")))
-    return("http://mousefm.genehopper.de/rest/finemap/")
-  else
-    return(getOption("url"))
+  return("http://mousefm.genehopper.de/rest/finemap/")
+  # if(is.null(getOption("url")) || !is.character(getOption("url")))
+  #   return("http://mousefm.genehopper.de/rest/finemap/")
+  # else
+  #   return(getOption("url"))
 }
 
 

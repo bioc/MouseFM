@@ -13,3 +13,6 @@ Changes in version 0.99.7 (2020-06-08)
 
 Changes in version 0.99.8 (2020-08-13)
 + Getter/Setter for URL of backend server
+
+Changes in version 0.99.9 (2020-08-23)
++ Check package bugfix in getURL function
