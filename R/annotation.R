@@ -230,7 +230,8 @@ annotate_mouse_genes = function(geno, flanking = NULL) {
     }
 
     # biomaRt::listMarts()
-    m = useMart("ENSEMBL_MART_ENSEMBL")
+    # Archives: https://www.bioconductor.org/packages/devel/bioc/vignettes/biomaRt/inst/doc/accessing_ensembl.html#using-archived-versions-of-ensembl
+    m = useMart("ENSEMBL_MART_ENSEMBL", host = "https://nov2020.archive.ensembl.org")
     datasets = listDatasets(m)
     # head(datasets[grep ("musculus", datasets$dataset),])
 

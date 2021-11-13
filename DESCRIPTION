@@ -54,4 +54,3 @@ Imports:
     stats,
     IRanges
 RoxygenNote: 7.1.0
-PackageStatus: Deprecated
