@@ -1,0 +1,13 @@
+
+citEntry(entry="article",
+         title = "In silico candidate variant and gene identification using inbred mouse strains",
+         author = personList(as.person("Matthias Munz"),
+           as.person("Mohammad Khodaygani"),
+           as.person("Zouhair Aherrahrou"),
+           as.person("Hauke Busch"),
+           as.person("Inken Wohlers")),
+         year = 2021,
+         journal = "PeerJ",
+         doi = "10.7717/peerj.11017",
+         url = "https://peerj.com/articles/11017/",
+         textVersion = "Munz M, Khodaygani M, Aherrahrou Z, Busch H, Wohlers I (2021) In silico candidate variant and gene identification using inbred mouse strains. PeerJ. doi:10.7717/peerj.11017")
