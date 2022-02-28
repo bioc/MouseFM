@@ -1,3 +1,6 @@
+Changes in version 1.5.1 (2022-02-28)
++ Citation adapted
+
 Changes in version 1.4.1 (2021-11-13)
 + Set biomaRt to url of archived version GRCm38 to be compatible with the package
 + Citation added
