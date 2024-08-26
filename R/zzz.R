@@ -1,5 +1,5 @@
 .onLoad <- function(libname, pkgname) {
-  options(url = "http://mousefm.genehopper.de/rest/finemap/")
+  options(url = "http://45.85.146.64:9000/rest/finemap/")
   
   packageStartupMessage("
   ---------

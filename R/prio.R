@@ -7,9 +7,9 @@
 #   BiocCheck::BiocCheck("/path/to/project")
 
 
-source("R/send_request.R")
-source("R/make_query.R")
-source("R/granges_conversion.R")
+# source("R/send_request.R")
+# source("R/make_query.R")
+# source("R/granges_conversion.R")
 
 
 #' Prioritization of inbred mouse strains for refining genetic regions

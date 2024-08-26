@@ -7,7 +7,7 @@
 #   BiocCheck::BiocCheck("/path/to/project")
 
 
-source("R/granges_conversion.R")
+# source("R/granges_conversion.R")
 
 
 #' Annotate with consequences

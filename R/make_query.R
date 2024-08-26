@@ -7,7 +7,7 @@
 #   BiocCheck::BiocCheck("/path/to/project")
 
 
-source("R/meta.R")
+# source("R/meta.R")
 
 
 #' Finemap query builder
@@ -176,11 +176,7 @@ setURL = function(url) {
 #' @examples getURL()
 #' @export
 getURL = function() {
-  return("http://mousefm.genehopper.de/rest/finemap/")
-  # if(is.null(getOption("url")) || !is.character(getOption("url")))
-  #   return("http://mousefm.genehopper.de/rest/finemap/")
-  # else
-  #   return(getOption("url"))
+    return("http://45.85.146.64:9000/rest/finemap/")
 }
 
 
