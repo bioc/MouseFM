@@ -7,9 +7,6 @@
 #   BiocCheck::BiocCheck("/path/to/project")
 
 
-# source("R/granges_conversion.R")
-
-
 #' Annotate with consequences
 #' @description Request variant consequences from Variant Effect Predictor (VEP)
 #' via Ensembl Rest Service. Not recommended for large queries.
