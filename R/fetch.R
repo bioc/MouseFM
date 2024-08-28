@@ -7,11 +7,6 @@
 #   BiocCheck::BiocCheck("/path/to/project")
 
 
-# source("R/send_request.R")
-# source("R/make_query.R")
-# source("R/granges_conversion.R")
-
-
 #' Fetch
 #' @description Fetch homozygous genotypes for a specified chromosomal region in
 #' 37 inbred mouse strains.

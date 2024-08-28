@@ -7,9 +7,6 @@
 #   BiocCheck::BiocCheck("/path/to/project")
 
 
-# source("R/meta.R")
-
-
 #' Finemap query builder
 #' @param chr Vector of chromosome names.
 #' @param start Optional vector of chromosomal start positions of target regions
@@ -166,7 +163,7 @@ finemap_query = function(chr,
 #' @examples setURL("http://backendserver.com")
 #' @export
 setURL = function(url) {
-  options("url" = url)
+    .myPackageEnv$url = url
 }
 
 
@@ -176,7 +173,7 @@ setURL = function(url) {
 #' @examples getURL()
 #' @export
 getURL = function() {
-    return("http://45.85.146.64:9000/rest/finemap/")
+    .myPackageEnv$url
 }
 
 
