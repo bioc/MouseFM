@@ -13,7 +13,7 @@ setURL(url)
 No return value.
 }
 \description{
-Set backend service URL. Default: http://mousefm.genehopper.de/rest/finemap/
+Set backend service URL. Default: http://45.85.146.64:9000/rest/finemap/
 }
 \examples{
 setURL("http://backendserver.com")

@@ -10,7 +10,7 @@ getURL()
 URL string.
 }
 \description{
-Get backend service URL. Default: http://mousefm.genehopper.de/rest/finemap/
+Get backend service URL. Default: http://45.85.146.64:9000/rest/finemap/
 }
 \examples{
 getURL()
