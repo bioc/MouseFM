@@ -7,7 +7,7 @@
 setURL(url)
 }
 \arguments{
-\item{url}{URL of backend service.}
+\item{url}{URL of backend service. With backslash at the end.}
 }
 \value{
 No return value.
@@ -16,5 +16,5 @@ No return value.
 Set backend service URL. Default: http://45.85.146.64:9000/rest/finemap/
 }
 \examples{
-setURL("http://backendserver.com")
+setURL("http://45.85.146.64:9000/rest/finemap/")
 }

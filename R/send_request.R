@@ -7,7 +7,7 @@
 #   BiocCheck::BiocCheck("/path/to/project")
 
 
-#' Send HTTP request to MMUS Server
+#' Send HTTP request to backend server
 #' @param q Query string
 #' @param n.tries Number of tries
 #' @param method HTTP method to use

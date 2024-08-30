@@ -158,9 +158,9 @@ finemap_query = function(chr,
 
 #' Set backend service url
 #' @description Set backend service URL. Default: http://45.85.146.64:9000/rest/finemap/
-#' @param url URL of backend service.
+#' @param url URL of backend service. With backslash at the end.
 #' @return No return value.
-#' @examples setURL("http://backendserver.com")
+#' @examples setURL("http://45.85.146.64:9000/rest/finemap/")
 #' @export
 setURL = function(url) {
     .myPackageEnv$url = url
