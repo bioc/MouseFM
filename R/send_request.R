@@ -7,7 +7,7 @@
 #   BiocCheck::BiocCheck("/path/to/project")
 
 
-#' Send HTTP request to MMUS Server
+#' Send HTTP request to backend server
 #' @param q Query string
 #' @param n.tries Number of tries
 #' @param method HTTP method to use
@@ -20,7 +20,7 @@ backend_request = function(q, n.tries = 2, method = "GET") {
   stopifnot(method == "GET" || method == "POST")
   stopifnot(nchar(q) > 0)
 
-
+  
   # Check if there is an internet connection
   if (!has_internet()) {
     stop("No internet connection detected...")

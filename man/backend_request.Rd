@@ -2,7 +2,7 @@
 % Please edit documentation in R/send_request.R
 \name{backend_request}
 \alias{backend_request}
-\title{Send HTTP request to MMUS Server}
+\title{Send HTTP request to backend server}
 \usage{
 backend_request(q, n.tries = 2, method = "GET")
 }
@@ -17,6 +17,6 @@ backend_request(q, n.tries = 2, method = "GET")
 Data frame.
 }
 \description{
-Send HTTP request to MMUS Server
+Send HTTP request to backend server
 }
 \keyword{internal}
