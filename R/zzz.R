@@ -4,7 +4,7 @@
   ---------
   For example usage please run: vignette('MouseFM')
   
-  Support us: http://matthiasmunz.de/support_mousefm
+  Support me: http://matthiasmunz.de/support_me
 
   Citation appreciated:
   Munz M, Khodaygani M, Aherrahrou Z, Busch H, Wohlers I (2021) In silico candidate variant and gene identification using inbred mouse strains. PeerJ. doi:10.7717/peerj.11017
