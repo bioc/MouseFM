@@ -36,7 +36,7 @@
 #' )
 #' @export
 #' @importFrom GenomicRanges makeGRangesFromDataFrame strand<-
-#' @importFrom GenomeInfoDb genome<- isCircular<- seqlevels seqlengths<-
+#' @importFrom Seqinfo genome<- isCircular<- seqlevels seqlengths<-
 df2GRanges = function(geno,
                        chr_name = "chr",
                        start_name = "pos",

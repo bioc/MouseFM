@@ -208,7 +208,7 @@ df_split = function(df, n) {
 #' @importFrom methods is
 #' @importFrom GenomicRanges start end start<- end<- intersect
 #' @importFrom biomaRt useMart listDatasets useDataset getBM
-#' @importFrom GenomeInfoDb seqlevels
+#' @importFrom Seqinfo seqlevels
 #' @importFrom IRanges subsetByOverlaps
 annotate_mouse_genes = function(geno, flanking = NULL) {
 
