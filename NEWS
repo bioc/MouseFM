@@ -1,3 +1,8 @@
+Changes in version 1.21.1 (2026-03-22)
++ Improved handling of Ensembl BioMart host and version mismatches
++ Added more informative error messages for BioMart connection and genome version issues
++ Prevented online example execution during package checks
+
 Changes in version 1.14.1 (2024-08-26)
 + Backend server changed
 
