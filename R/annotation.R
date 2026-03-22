@@ -191,12 +191,21 @@ df_split = function(df, n) {
 
 
 #' Annotate with genes
-#' @description Request mouse genes from Ensembl Biomart.
-#' @param geno Data frame or GenomicRanges::GRanges object including columns
-#' chr, pos.
-#' @param flanking Size of flanking sequence to be included.
-#' @return Data frame.
-#' @examples
+#' @description Request mouse gene annotations from Ensembl BioMart.
+#' @param geno Data frame or \code{GenomicRanges::GRanges} object including
+#' chromosome and genomic position information.
+#' @param flanking Numeric. Size of the flanking region to include on both
+#' sides of each interval.
+#' @param host Character string. Ensembl host passed to
+#' \code{biomaRt::useMart()}. If the selected host does not match the
+#' reference genome used by MouseFM, another Ensembl archive host should be
+#' selected, for example from \code{biomaRt::listEnsemblArchives()}.
+#' @param biomart Character string. Name of the BioMart database passed to
+#' \code{biomaRt::useMart()}.
+#' @param dataset_name Character string. Name of the BioMart dataset to use.
+#' Default is \code{"mmusculus_gene_ensembl"}.
+#' @return Data frame with overlapping gene annotations.
+#' @examplesIf interactive() && curl::has_internet()
 #' geno = finemap("chr1",
 #'   start = 5000000, end = 6000000,
 #'   strain1 = c("C57BL_6J"), strain2 = c("AKR_J", "A_J", "BALB_cJ")
@@ -210,43 +219,98 @@ df_split = function(df, n) {
 #' @importFrom biomaRt useMart listDatasets useDataset getBM
 #' @importFrom Seqinfo seqlevels
 #' @importFrom IRanges subsetByOverlaps
-annotate_mouse_genes = function(geno, flanking = NULL) {
-
+annotate_mouse_genes = function(geno,
+                                flanking = NULL,
+                                host = "https://nov2020.archive.ensembl.org",
+                                biomart = "ENSEMBL_MART_ENSEMBL",
+                                dataset_name = "mmusculus_gene_ensembl") {
+    
+    
     # Check if there is an internet connection
     if (!has_internet()) {
-        stop("No internet connection detected...")
+        stop("No internet connection detected...", call. = FALSE)
     }
-
+    
     if (!("GRanges" %in% is(geno))) {
         geno = df2GRanges(geno)
     }
-
+    
     if (is.numeric(flanking)) {
         start(geno) = start(geno) - flanking
         end(geno) = end(geno) + flanking
     }
-
-    # biomaRt::listMarts()
-    # Archives: https://www.bioconductor.org/packages/devel/bioc/vignettes/biomaRt/inst/doc/accessing_ensembl.html#using-archived-versions-of-ensembl
-    m = useMart("ENSEMBL_MART_ENSEMBL", host = "https://nov2020.archive.ensembl.org")
-    datasets = listDatasets(m)
-    # head(datasets[grep ("musculus", datasets$dataset),])
-
-    if (!startsWith(datasets$version[datasets$dataset ==
-        "mmusculus_gene_ensembl"], ref_genome())) {
+    
+    m = tryCatch(
+        useMart(biomart, host = host),
+        error = function(e) {
+            stop(
+                sprintf(
+                    paste(
+                        "Could not connect to BioMart '%s' at host '%s'.",
+                        "The selected Ensembl archive may be unavailable or slow.",
+                        "Please try another host listed by biomaRt::listEnsemblArchives().",
+                        "Original error: %s"
+                    ),
+                    biomart, host, conditionMessage(e)
+                ),
+                call. = FALSE
+            )
+        }
+    )
+    
+    datasets = tryCatch(
+        listDatasets(m),
+        error = function(e) {
+            stop(
+                sprintf(
+                    paste(
+                        "Connected to BioMart host '%s', but could not retrieve datasets.",
+                        "Please try another host listed by biomaRt::listEnsemblArchives().",
+                        "Original error: %s"
+                    ),
+                    host, conditionMessage(e)
+                ),
+                call. = FALSE
+            )
+        }
+    )
+    
+    dataset_version = datasets$version[datasets$dataset == dataset_name][1]
+    expected_version = ref_genome()
+    
+    if (is.na(dataset_version) || !nzchar(dataset_version)) {
         stop(
-            "Reference genome version of BiomaRt is different from the one used 
-            in the R package. Contact maintainer."
+            sprintf(
+                paste(
+                    "Could not determine the Ensembl dataset version for '%s' from host '%s'.",
+                    "Please check the selected host or choose another one with",
+                    "biomaRt::listEnsemblArchives()."
+                ),
+                dataset_name, host
+            ),
+            call. = FALSE
         )
     }
-
-    ds = useDataset("mmusculus_gene_ensembl", mart = m)
-
-    # filters = listFilters(ds)
-    # attributes = listAttributes(ds)
-
-
-    # Request Biomart
+    
+    if (!startsWith(dataset_version, expected_version)) {
+        stop(
+            sprintf(
+                paste(
+                    "Reference genome mismatch between MouseFM and the selected Ensembl host.",
+                    "MouseFM expects a genome version starting with '%s',",
+                    "but dataset '%s' on host '%s' reports version '%s'.",
+                    "Please pass another 'host' to annotate_mouse_genes().",
+                    "Available Ensembl archive hosts can be checked with",
+                    "biomaRt::listEnsemblArchives()."
+                ),
+                expected_version, dataset_name, host, dataset_version
+            ),
+            call. = FALSE
+        )
+    }
+    
+    ds = useDataset(dataset_name, mart = m)
+    
     res = getBM(
         attributes = c(
             "external_gene_name",
@@ -263,9 +327,7 @@ annotate_mouse_genes = function(geno, flanking = NULL) {
         values = seqlevels(geno),
         mart = ds
     )
-
-
-    # Convert Biomart output to GRanges object
+    
     res$strand = vapply(res$strand, function(x) {
         if (x == 1) {
             "+"
@@ -273,25 +335,19 @@ annotate_mouse_genes = function(geno, flanking = NULL) {
             "-"
         }
     }, character(1))
+    
     res.granges = df2GRanges(
         res,
         chr_name = "chromosome_name",
         start_name = "start_position",
         end_name = "end_position"
     )
-
-
-    # Overlap
-    inters = intersect(res.granges,
-        geno,
-        ignore.strand = TRUE
-    )
-
+    
+    inters = intersect(res.granges, geno, ignore.strand = TRUE)
+    
     geno.subset = subsetByOverlaps(geno, inters)
     res.subset = subsetByOverlaps(res.granges, inters)
-
-
-    # Reformat
+    
     res.subset = as.data.frame(res.subset)
     colnames(res.subset) = c(
         "chr",
@@ -305,6 +361,7 @@ annotate_mouse_genes = function(geno, flanking = NULL) {
         "description",
         "biotype"
     )
+    
     res.subset = res.subset[, c(
         "chr",
         "start",
@@ -316,6 +373,6 @@ annotate_mouse_genes = function(geno, flanking = NULL) {
         "biotype",
         "strand"
     )]
-
+    
     return(res.subset)
 }
