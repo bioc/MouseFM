@@ -4,25 +4,45 @@
 \alias{annotate_mouse_genes}
 \title{Annotate with genes}
 \usage{
-annotate_mouse_genes(geno, flanking = NULL)
+annotate_mouse_genes(
+  geno,
+  flanking = NULL,
+  host = "https://nov2020.archive.ensembl.org",
+  biomart = "ENSEMBL_MART_ENSEMBL",
+  dataset_name = "mmusculus_gene_ensembl"
+)
 }
 \arguments{
-\item{geno}{Data frame or GenomicRanges::GRanges object including columns
-chr, pos.}
+\item{geno}{Data frame or \code{GenomicRanges::GRanges} object including
+chromosome and genomic position information.}
 
-\item{flanking}{Size of flanking sequence to be included.}
+\item{flanking}{Numeric. Size of the flanking region to include on both
+sides of each interval.}
+
+\item{host}{Character string. Ensembl host passed to
+\code{biomaRt::useMart()}. If the selected host does not match the
+reference genome used by MouseFM, another Ensembl archive host should be
+selected, for example from \code{biomaRt::listEnsemblArchives()}.}
+
+\item{biomart}{Character string. Name of the BioMart database passed to
+\code{biomaRt::useMart()}.}
+
+\item{dataset_name}{Character string. Name of the BioMart dataset to use.
+Default is \code{"mmusculus_gene_ensembl"}.}
 }
 \value{
-Data frame.
+Data frame with overlapping gene annotations.
 }
 \description{
-Request mouse genes from Ensembl Biomart.
+Request mouse gene annotations from Ensembl BioMart.
 }
 \examples{
+\dontshow{if (interactive() && curl::has_internet()) withAutoprint(\{ # examplesIf}
 geno = finemap("chr1",
   start = 5000000, end = 6000000,
   strain1 = c("C57BL_6J"), strain2 = c("AKR_J", "A_J", "BALB_cJ")
 )
 
 genes = annotate_mouse_genes(geno, 50000)
+\dontshow{\}) # examplesIf}
 }
